@@ -1,21 +1,21 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const students = require('../controllers/students');
+import {index, createStudent, renderNewForm, renderEditForm, showStudent, updateStudent, deleteStudent} from '../controllers/students.js';
 
 
 router.route('/')
-   .get(students.index)
-   .post(students.createStudent);
+   .get(index)
+   .post(createStudent);
 
 
-router.get('/new', students.renderNewForm);
+router.get('/new', renderNewForm);
 
 router.route('/:id')
-    .get(students.showStudent)
-    .put(students.updateStudent)
-    .delete(students.deleteStudent);
+    .get(showStudent)
+    .put(updateStudent)
+    .delete(deleteStudent);
 
-router.get('/:id/edit', students.renderEditForm);
+router.get('/:id/edit', renderEditForm);
 
-module.exports = router;
+export default router;
 

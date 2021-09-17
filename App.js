@@ -12,6 +12,8 @@ import { username, password } from "./credentials.js";
 
 import clubRouter from "./routes/clubs.js";
 import eventRouter from "./routes/events.js";
+import studentRouter from "./routes/students.js";
+
 
 const GoogleStrategy = Googlepassport.Strategy;
 const app = express();
@@ -31,6 +33,7 @@ app.use(passport.session());
 
 app.use("/club", clubRouter);
 app.use("/event", eventRouter);
+app.use("/student", studentRouter);
 
 const CONNECTION_URL = `mongodb+srv://${username}:${password}@clubsiiitm.awqoq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const PORT = process.env.PORT || 5000;

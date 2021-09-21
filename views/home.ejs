@@ -35,7 +35,7 @@
      
 
     <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+    <nav class="navbar navbar-expand-lg bg-dark text-uppercase fixed-top" id="mainNav">
         <div class="container">
             <a class="navbar-brand js-scroll-trigger"  href="#page-top" >Clubs<strong style="color: #9CC3D5;">IIITM</strong></a>
             <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,12 +67,12 @@
 
 
     <!-- Masthead-->
-    <header class="masthead bg-primary text-white text-center" id="page-top">
+    <header class="masthead bg-light text-white text-center" id="page-top">
 
         
         <div class="container fixed-top">
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                Please signin into CLUBSIITI
+                Please signin into CLUBSIIITMG
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -82,15 +82,15 @@
 
 
         <div class="container d-flex align-items-center flex-column">
-            <!-- Masthead Avatar Image--><img class="masthead-avatar mb-5" src=" https://i.imgur.com/vWkvi0j.png" alt="">
+            <!-- Masthead Avatar Image--><img class="masthead-avatar mb-5" src="https://i.imgur.com/eQrt2zc.png" alt="">
             <!-- Masthead Heading-->
-            <h1 class="masthead-heading mb-0" style="font-family: 'Kaushan Script', cursive;">IIITM GWALIOR</h1>
+            <h1 class="masthead-heading mb-0 text-dark" style="font-family: 'Kaushan Script', cursive;">IIITM GWALIOR</h1>
             <!-- Icon Divider-->
-            <div class="divider-custom divider-light">
+            <!-- <div class="divider-custom divider-secondary">
                 <div class="divider-custom-line"></div>
                 <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                 <div class="divider-custom-line"></div>
-            </div>
+            </div> -->
             <!-- Masthead Subheading-->
             <p class="pre-wrap masthead-subheading font-weight-light mb-0"></p>
         </div>
@@ -100,7 +100,7 @@
 
     </header>
 
-    <div class="jumbotron">
+    <div class="jumbotron bg-dark text-white">
         <div class="container">
             <div class="row">
                 <div class="col">
@@ -108,17 +108,18 @@
                 </div>
                 <div class="col">
                     <div class="row h4">
+                        <% for(let event of recentevents) { %> 
                         <div class="col d-md-block">
-                            <a href="/clubs/cinephiles#events">Urja</a>
+                            <a href="/club/61401d31cd6a69c72266e802"><%=event.name%></a>
                         </div>
-                        <div class="col d-none d-md-block">
-                            <a href="/clubs/literary#events">Aurora
-</a>
+                        <% } %> 
+                        <!-- <div class="col d-none d-md-block">
+                            <a href="/clubs/literary#events">Aurora</a>
                         </div>
                         <div class="col d-none d-md-block">
                             <a href="/clubs/cinephiles#events">Techfest</a>
 
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
@@ -132,21 +133,33 @@
     <section class="page-section portfolio" id="cultural">
         <div class="container">
             <!-- Portfolio Section Heading-->
-            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0" style="font-family: 'Kaushan Script', cursive;">Cultural Clubs</h2>
+            <h2 class="page-section-heading text-center text-uppercase text-body mb-0" style="font-family: 'Kaushan Script', cursive;">Cultural Clubs</h2>
             <!-- Icon Divider-->
             <div class="divider-custom">
-                <div class="divider-custom-line"></div>
-                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-                <div class="divider-custom-line"></div>
+                <div class="divider-custom-line bg-secondary"></div>
+                <div class="divider-custom-icon bg-transparent"><i class="text-secondary fas fa-star"></i></div>
+                <div class="divider-custom-line bg-secondary"></div>
             </div>
             <!-- Portfolio Grid Items-->
             <div class="row">
+                <% for(let cultural of cultClubs) { %>
+                    <div class="col-md-6 col-lg-4 mb-5">
+                        <a href="/club/<%=cultural._id%>">
+                            <div class="portfolio-item mx-auto">
+                                <img class="img-fluid" src="https://i.imgur.com/U1cZZge.jpg" alt="">
+                                <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;"><%=cultural.name%></h2>
+                            </div>
+                        </a>
+                    </div>
+                <% } %> 
 
-                <div class="col-md-6 col-lg-4 mb-5">
+                
+
+                <!-- <div class="col-md-6 col-lg-4 mb-5">
                     <a href="/clubs/literary">
                         <div class="portfolio-item mx-auto">
-                            <img class="img-fluid" src="https://i.imgur.com/jzKLXM3.png" alt="">
-                            <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">Literary Club</h2>
+                            <img class="img-fluid" src="https://i.imgur.com/RCewQfX.jpg" alt="">
+                            <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">Manchtantra</h2>
 
                         </div>
                     </a>
@@ -155,92 +168,11 @@
                 <div class="col-md-6 col-lg-4 mb-5">
                     <a href="/clubs/cinephiles">
                         <div class="portfolio-item mx-auto">
-                            <img class="img-fluid" src="https://i.imgur.com/Rc5v1SE.png" alt="">
-                            <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">Cinephiles</h2>
+                            <img class="img-fluid" src="https://i.imgur.com/Bswi38y.png" alt="">
+                            <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">Rotaract</h2>
                         </div>
                     </a>
-                </div>
-
-                <div class="col-md-6 col-lg-4 mb-5">
-                    <a href="/clubs/kalakriti">
-                        <div class="portfolio-item mx-auto">
-                            <img class="img-fluid" src="https://i.imgur.com/RjV9oEr.png" alt="">
-                            <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">Kalakriti</h2>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-md-6 col-lg-4 mb-5">
-                    <a href="/clubs/dance">
-                        <div class="portfolio-item mx-auto">
-                            <img class="img-fluid" src="https://i.imgur.com/mFwSMVH.png" alt="">
-                            <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">Dance</h2>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-md-6 col-lg-4 mb-5">
-                    <a href="/clubs/dramatics">
-                        <div class="portfolio-item mx-auto">
-                            <img class="img-fluid" src="https://i.imgur.com/RGu91VS.png" alt="">
-                            <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">Dramatics Club</h2>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-md-6 col-lg-4 mb-5">
-                    <a href="/clubs/music">
-                        <div class="portfolio-item mx-auto">
-                            <img class="img-fluid" src="https://i.imgur.com/4gcTilp.png" alt="">
-                            <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">Music Club</h2>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-md-6 col-lg-4 mb-5">
-                    <a href="/clubs/mystic_hues">
-                        <div class="portfolio-item mx-auto">
-                            <img class="img-fluid" src="https://i.imgur.com/tXK9eh7.png" alt="">
-                            <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">Mystic Hues</h2>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-md-6 col-lg-4 mb-5">
-                    <a href="/clubs/quiz">
-                        <div class="portfolio-item mx-auto">
-                            <img class="img-fluid" src="https://i.imgur.com/KVy71BI.png" alt="">
-                            <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">Quiz Club</h2>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-md-6 col-lg-4 mb-5">
-                    <a href="/clubs/debsoc">
-                        <div class="portfolio-item mx-auto">
-                            <img class="img-fluid" src="https://i.imgur.com/qX41GbK.png" alt="">
-                            <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">Debsoc</h2>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-md-6 col-lg-4 mb-5">
-                    <a href="/clubs/avana">
-                        <div class="portfolio-item mx-auto">
-                            <img class="img-fluid" src="https://i.imgur.com/CCxLMDF.png" alt="">
-                            <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">Avana</h2>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-md-6 col-lg-4 mb-5">
-                    <a href="/clubs/srijanClub">
-                        <div class="portfolio-item mx-auto">
-                            <img class="img-fluid" src="https://i.imgur.com/1zZYfKJ.png" alt="">
-                            <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">Srijan</h2>
-                        </div>
-                    </a>
-                </div>
+                </div> -->
 
 
             </div>
@@ -254,8 +186,9 @@
 
         <div class="container">
             <!-- Portfolio Section Heading-->
-            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0" style="font-family: 'Kaushan Script', cursive;">Technical Clubs</h2>
+            <h2 class="page-section-heading text-center text-uppercase text-body mb-0" style="font-family: 'Kaushan Script', cursive;">Technical Clubs</h2>
             <!-- Icon Divider-->
+            <div class="divider-custom-line"></div>
             <div class="divider-custom">
                 <div class="divider-custom-line"></div>
                 <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
@@ -264,20 +197,22 @@
             <!-- Portfolio Grid Items-->
             <div class="row">
 
-                <div class="col-md-6 col-lg-4 mb-5">
-                    <a href="/clubs/progClub">
-                        <div class="portfolio-item mx-auto">
-                            <img class="img-fluid" src="https://i.imgur.com/sVcLAw8.png" alt="">
-                            <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;" style="font-family: 'Ubuntu', sans-serif;">P Club</h2>
-                        </div>
-                    </a>
-                </div>
+                <% for(let technical of techClubs) { %>
+                    <div class="col-md-6 col-lg-4 mb-5">
+                        <a href="/club/<%=technical._id%>">
+                            <div class="portfolio-item mx-auto">
+                                <img class="img-fluid" src="https://i.imgur.com/U1cZZge.jpg" alt="">
+                                <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;"><%=technical.name%></h2>
+                            </div>
+                        </a>
+                    </div>
+                <% } %> 
 
-                <div class="col-md-6 col-lg-4 mb-5">
+                <!-- <div class="col-md-6 col-lg-4 mb-5">
                     <a href="/clubs/robotics">
                         <div class="portfolio-item mx-auto">
-                            <img class="img-fluid" src="https://i.imgur.com/QzzdYHn.png" alt="">
-                            <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">Robotics Club</h2>
+                            <img class="img-fluid" src="https://i.imgur.com/WUtFUdr.jpg" alt="">
+                            <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">AASF</h2>
                         </div>
                     </a>
                 </div>
@@ -285,56 +220,21 @@
                 <div class="col-md-6 col-lg-4 mb-5">
                     <a href="/clubs/concreate">
                         <div class="portfolio-item mx-auto">
-                            <img class="img-fluid" src="https://i.imgur.com/N0cif4N.png" alt="">
-                            <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">Concreate Club</h2>
+                            <img class="img-fluid" src="https://i.imgur.com/NhoOLQ0.png" alt="">
+                            <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">E-Cell</h2>
                         </div>
                     </a>
                 </div>
 
-                <div class="col-md-6 col-lg-4 mb-5">
-                    <a href="/clubs/cae">
-                        <div class="portfolio-item mx-auto">
-                            <img class="img-fluid" src="https://i.imgur.com/Y9l0rjo.png" alt="">
-                            <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">CAE Club</h2>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-md-6 col-lg-4 mb-5">
-                    <a href="/clubs/astronomy">
-                        <div class="portfolio-item mx-auto">
-                            <img class="img-fluid" src="https://i.imgur.com/Swqvdb4.png" alt="">
-                            <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">Astronomy Club</h2>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-md-6 col-lg-4 mb-5">
-                    <a href="/clubs/electronics">
-                        <div class="portfolio-item mx-auto">
-                            <img class="img-fluid" src="https://i.imgur.com/clLpjOj.png" alt="">
-                            <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">Electronics Club</h2>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-md-6 col-lg-4 mb-5">
-                    <a href="/clubs/aeromodelling">
-                        <div class="portfolio-item mx-auto">
-                            <img class="img-fluid" src="https://i.imgur.com/2V6vv6A.png" alt="">
-                            <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">Aeromodelling Club</h2>
-                        </div>
-                    </a>
-                </div>
 
                 <div class="col-md-6 col-lg-4 mb-5">
                     <a href="/clubs/dsc">
                         <div class="portfolio-item mx-auto">
-                            <img class="img-fluid" src="https://i.imgur.com/00cdJl1.png" alt="">
+                            <img class="img-fluid" src="https://i.imgur.com/GMG1pVn.jpg" alt="">
                             <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">DSC</h2>
                         </div>
                     </a>
-                </div>
+                </div> -->
 
             </div>
         </div>
@@ -346,7 +246,7 @@
 
 
     <!-- About Section-->
-    <section class="page-section bg-primary text-white mb-0" id="about">
+    <section class="page-section bg-dark text-white mb-0" id="about">
         <div class="container">
             <!-- About Section Heading-->
             <div class="text-center">
@@ -364,7 +264,7 @@
                     <p class="pre-wrap lead" style="font-family: 'Ubuntu', sans-serif;">This is a website which will ease the recruitment process for the clubs and moreover it will help them manage their activities and also it will help club heads to modify the club database of their respective clubs.</p>
                 </div>
                 <div class="col-lg-4 mr-auto">
-                    <p class="pre-wrap lead" style="font-family: 'Ubuntu', sans-serif;">This website will also help outsiders to know about clubs of IITI so that they can decide which club is better for them according to their interests so that they can apply for it. </p>
+                    <p class="pre-wrap lead" style="font-family: 'Ubuntu', sans-serif;">This website will also help outsiders to know about clubs of IIITMG so that they can decide which club is better for them according to their interests so that they can apply for it. </p>
                 </div>
             </div>
         </div>
@@ -374,7 +274,7 @@
         <div class="container">
             <!-- Contact Section Heading-->
             <div class="text-center">
-                <h2 class="page-section-heading text-secondary d-inline-block mb-0" style="font-family: 'Kaushan Script', cursive;">CONTACT</h2>
+                <h2 class="page-section-heading text-body d-inline-block mb-0" style="font-family: 'Kaushan Script', cursive;">CONTACT</h2>
             </div>
             <!-- Icon Divider-->
             <div class="divider-custom">
@@ -388,7 +288,7 @@
                     <div class="d-flex flex-column align-items-center">
                         <div class="icon-contact mb-3"><i class="fas fa-mobile-alt"></i></div>
                         <div class="text-muted">Contact Number</div>
-                        <div class="lead font-weight-bold">(0755) 99119 28728</div>
+                        <div class="lead font-weight-bold">(0751) 91827 36455</div>
                     </div>
                 </div>
                 <div class="col-lg-4">
@@ -401,34 +301,34 @@
         </div>
     </section>
     <!-- Footer-->
-    <footer class="footer text-center">
+    <footer class="footer text-center bg-dark">
         <div class="container">
             <div class="row">
                 <!-- Footer Location-->
                 <div class="col-lg-4 mb-5 mb-lg-0">
                     <h4 class="mb-4">LOCATION</h4>
-                    <p class="pre-wrap lead mb-0">Khandwa Rd, Simrol, MP 453552
+                    <p class="pre-wrap lead mb-0">Morena Link Road, Gwalior, MP 474015
                     </p>
                 </div>
                 <!-- Footer Social Icons-->
                 <div class="col-lg-4 mb-5 mb-lg-0">
-                    <h4 class="mb-4">IITI WEBSITE</h4>
-                    <a class="btn btn-outline-light btn-social mx-1" href="https://twitter.com/IITIOfficial"><i class="fab fa-fw fa-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social mx-1" href="https://www.iiti.ac.in/"><i class="fab fa-fw fa-google"></i></a>
-                    <a class="btn btn-outline-light btn-social mx-1" href="https://www.facebook.com/pages/category/Government-Organization/IIT-Indore-108781240868622/"><i class="fab fa-fw fa-facebook-f"></i></a>
+                    <h4 class="mb-4">IIITMG WEBSITE</h4>
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://twitter.com/iiitm?lang=en"><i class="fab fa-fw fa-twitter"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-1" href="http://www.iiitm.ac.in/index.php/en/"><i class="fab fa-fw fa-google"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://www.facebook.com/iiitm/"><i class="fab fa-fw fa-facebook-f"></i></a>
                 </div>
                 <!-- Footer About Text-->
                 <div class="col-lg-4">
-                    <h4 class="mb-4">ABOUT IITI</h4>
-                    <p class="pre-wrap lead mb-0">IITI, located in Madhya Pradesh, is an institute of national importance established by the government of India in 2009.</p>
+                    <h4 class="mb-4">ABOUT IIITMG</h4>
+                    <p class="pre-wrap lead mb-0">IIITMG, located in Madhya Pradesh, is an institute of national importance established by the Government of India in 1997.</p>
                 </div>
             </div>
         </div>
     </footer>
     
     <!-- Copyright Section-->
-    <section class="copyright py-4 text-center text-white">
-        <div class="container"><small class="pre-wrap">Copyright © clubsiiti2021</small></div>
+    <section class="copyright pb-4 text-center text-white bg-dark">
+        <div class="container"><small class="pre-wrap">Copyright © clubsiiitmg</small></div>
     </section>
     <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes)-->
     <div class="scroll-to-top position-fixed"><a class="js-scroll-trigger d-block text-center text-white rounded" href="#body-top"><i class="fa fa-chevron-up"></i></a></div>

@@ -6,7 +6,8 @@ const clubSchema = mongoose.Schema({
     
     name: {
         type: String,
-        unique: true
+        unique: true,
+        required: true
     },
     description: String,
     achievements: [String],
@@ -22,7 +23,10 @@ const clubSchema = mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: "studentModel"
     },
-    typeofclub: String
+    typeofclub: {
+        type: String,
+        required: true
+    }
 });
 
 const clubModel = mongoose.model("clubModel", clubSchema);

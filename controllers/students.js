@@ -1,22 +1,28 @@
-const Student = require('../models/students');
+import studentModel from '../models/students.js';
 
-module.exports.index = async (req, res) => {
-    const students = await Student.find({});
-    res.render('students/index', {students});
+export const index = async (req, res) => {
+    const students = await studentModel.find({});
+    res.json(students);
+    //res.render('students/index', {students});
 }
 
-module.exports.renderNewForm = async (req, res) => {
+export const renderNewForm = async (req, res) => {
     res.render('students/new');
 }
 
-module.exports.createStudent = async (req, res, next) => {
-    const student = new Student(req.body);
-    await student.save();
-    res.redirect(`/students/${student._id}`);
+export const createStudent = async (req, res, next) => {
+    try {
+        const student = new studentModel(req.body);
+        await student.save();
+        res.json(student);
+        
+    } catch (error) {
+        res.send(error.message);
+    }
 }
 
-module.exports.showStudent = async (req, res) => {
-    const student = await Student.findById(req.params.id);
+export const showStudent = async (req, res) => {
+    const student = await studentModel.findById(req.params.id);
     if(!student) {
         console.log("Cannot find that student");
         return res.redirect('/students');
@@ -24,21 +30,22 @@ module.exports.showStudent = async (req, res) => {
     res.render('students/show', {student});
 }
 
-module.exports.renderEditForm = async (req, res) => {
-    const student = await Student.findById(req.params.id);
+export const renderEditForm = async (req, res) => {
+    const student = await studentModel.findById(req.params.id);
     if(!student) {
         console.log("Cannot find that student");
         return res.redirect('/students');
     }
-    res.render('students/edit', {student});
+    //res.json()
+    //res.render('students/edit', {student});
 }
 
-module.exports.updateStudent = async (req, res) => {
-    const student = await Student.findByIdAndUpdate(req.params.id, req.body);
+export const updateStudent = async (req, res) => {
+    const student = await studentModel.findByIdAndUpdate(req.params.id, req.body);
     res.redirect(`/students/${student._id}`);
 }
 
-module.exports.deleteStudent = async (req, res) => {
+export const deleteStudent = async (req, res) => {
     await Student.findByIdAndDelete(req.params.id);
     res.redirect('/students');
 }

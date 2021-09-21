@@ -1,99 +1,133 @@
+import mongoose from "mongoose";
 import clubModel from "../models/clubs.js";
 
-export const getClubs = async (req,res) => {
+export const getClub = async (req, res) => {
+
+    const { clubId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(clubId)) {
+        var err = new Error("Club not found.");
+        err.status = 406;
+        return err;
+    }
+
     try {
-        const clubs = await clubModel.find();
-        res.setHeader("ContentType", "application/json");
-        res.status(200).json(clubs);
-        
+        const club = await clubModel.findOne({ _id: clubId })
+                                    .populate("memberids", "name")
+                                    .populate("presidentid", "name")
+                                    .populate("eventids", "name");
+        return club;
+
     } catch (error) {
-        res.setHeader("ContentType", "application/json");
-        res.status(error.status).json({ message: error.message });
+        error.message = "Unable to connect with database.";
+        return error;
     }
 
 };
 
-export const postClub = async (req,res) => {
+export const getTechClubs = async (req, res) => {
+
+    try {
+        const clubs = await clubModel.find({ typeofclub: "Technical" });
+        return clubs;
+
+    } catch (error) {
+        error.message = "Unable to connect with database.";
+        return error;
+    }
+
+};
+
+export const getCultClubs = async (req, res) => {
+
+    try {
+        const clubs = await clubModel.find({ typeofclub: "Cultural" });
+        return clubs;
+
+    } catch (error) {
+        error.message = "Unable to connect with database.";
+        return error;
+    }
+
+};
+
+export const postClub = async (req, res) => {
 
     const body = req.body;
     const newClub = new clubModel(body);
 
     try {
         await newClub.save();
-        res.setHeader("ContentType", "application/json");
-        res.status(200).json(newClub);
-        
+        return newClub;
+
     } catch (error) {
-        res.setHeader("ContentType", "application/json");
-        res.status(error.status).json({ message: error.message });        
+        error.status = 400;
+        error.message = "The club name already exsist.";
+        return error;
     }
 
 };
 
 
-export const putClub = async (req,res) => {
+export const putClub = async (req, res) => {
 
     const body = req.body;
     var club;
 
     try {
-        club = await clubModel.findOne({ _id: body._id});
-        
+        club = await clubModel.findOne({ _id: body._id });
+
     } catch (error) {
-        res.setHeader("ContentType", "application/json");
-        res.status(error.status).json({ message: error.message });    
+        error.message = "Unable to connect with database.";
+        return error;
 
     }
 
-    if(club!=null)
-    {
+    if (club != null) {
         try {
             await clubModel.updateOne({ _id: body._id }, req.body);
-            res.setHeader("ContentType", "application/json");
-            res.status(200).json(await clubModel.findOne(body));
+            return (await clubModel.findOne(body));
 
         } catch (error) {
-            res.setHeader("ContentType", "application/json");
-            res.status(error.status).json({ message: error.message });     
+            error.status = 400;
+            error.message = "The club name already exsist.";
+            return error;
         }
     }
-    else
-    {
-        res.setHeader("ContentType", "application/json");
-        res.status(406).json({ message: "The Club doesn't exsist."});
+    else {
+        var err = new Error("The Club doesn't exsist.");
+        err.status = 406;
+        return err;
     }
 };
 
-export const delClub = async (req,res) => {
+export const delClub = async (req, res) => {
 
     const body = req.body;
     var club;
 
     try {
-        club = await clubModel.findOne({ _id: body._id});
-        
+        club = await clubModel.findOne({ _id: body._id });
+
     } catch (error) {
-        res.setHeader("ContentType", "application/json");
-        res.status(error.status).json({ message: error.message });    
+        error.message = "Unable to connect with database.";
+        return error;
 
     }
 
-    if(club!=null)
-    {
+    if (club != null) {
         try {
             await clubModel.deleteOne(body);
-            res.setHeader("ContentType", "application/json");
-            res.status(200).json(body);
-        
-        } catch (error) {
-            res.setHeader("ContentType", "application/json");
-            res.status(error.status).json({ message: error.message });    
+            return body;
 
+        } catch (error) {
+            error.message = "Unable to connect with database.";
+            return error;
         }
     }
-    else
-    {
-        res.setHeader("ContentType", "application/json");
-        res.status(406).json({ message: "The Club doesn't exsist."});
+    else {
+        var err = new Error("The Club doesn't exsist.");
+        err.status = 406;
+        return err;
     }
 };

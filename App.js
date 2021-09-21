@@ -5,20 +5,29 @@ import findOrCreate from "mongoose-findorcreate";
 import session from "express-session";
 import passport from "passport";
 import Googlepassport from "passport-google-oauth20";
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 import dotenv from "dotenv";
 dotenv.config();
 import { username, password } from "./credentials.js";
 
-import clubRouter from "./routes/clubs.js";
-import eventRouter from "./routes/events.js";
+import homeRoute from "./routes/home.js";
+import clubRoute from "./routes/club.js";
 
 const GoogleStrategy = Googlepassport.Strategy;
 const app = express();
 
+app.set('view engine', 'ejs');
+
 app.use(cors());
 app.use(express.json({ limit: "30mb", extended: true })) 
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
     secret: process.env.secret,
@@ -29,8 +38,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/club", clubRouter);
-app.use("/event", eventRouter);
+app.use("/home", homeRoute);
+app.use("/club",clubRoute);
 
 const CONNECTION_URL = `mongodb+srv://${username}:${password}@clubsiiitm.awqoq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const PORT = process.env.PORT || 5000;

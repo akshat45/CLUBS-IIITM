@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
-const Schema = mongoose.Schema;
 
-const studentSchema = Schema({
+const studentSchema = mongoose.Schema({
     name: {
         type: String,
         default: "",
@@ -14,10 +13,8 @@ const studentSchema = Schema({
     },
     phoneno: {
         type: Number,
-        unique: true,
         minimum: 1000000000,
         maximum: 9999999999,
-        required: true
     },
     linkedin: {
         type: String,
@@ -38,4 +35,6 @@ const studentSchema = Schema({
 
 });
 
-export default mongoose.model("Student", studentSchema);
+const studentModel = mongoose.model("studentModel", studentSchema);
+
+export default studentModel;

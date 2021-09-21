@@ -1,7 +1,7 @@
-import Student from '../models/students.js';
+import studentModel from '../models/students.js';
 
 export const index = async (req, res) => {
-    const students = await Student.find({});
+    const students = await studentModel.find({});
     res.json(students);
     //res.render('students/index', {students});
 }
@@ -11,13 +11,18 @@ export const renderNewForm = async (req, res) => {
 }
 
 export const createStudent = async (req, res, next) => {
-    const student = new Student(req.body);
-    await student.save();
-    res.redirect(`/students/${student._id}`);
+    try {
+        const student = new studentModel(req.body);
+        await student.save();
+        res.json(student);
+        
+    } catch (error) {
+        res.send(error.message);
+    }
 }
 
 export const showStudent = async (req, res) => {
-    const student = await Student.findById(req.params.id);
+    const student = await studentModel.findById(req.params.id);
     if(!student) {
         console.log("Cannot find that student");
         return res.redirect('/students');
@@ -26,7 +31,7 @@ export const showStudent = async (req, res) => {
 }
 
 export const renderEditForm = async (req, res) => {
-    const student = await Student.findById(req.params.id);
+    const student = await studentModel.findById(req.params.id);
     if(!student) {
         console.log("Cannot find that student");
         return res.redirect('/students');
@@ -36,7 +41,7 @@ export const renderEditForm = async (req, res) => {
 }
 
 export const updateStudent = async (req, res) => {
-    const student = await Student.findByIdAndUpdate(req.params.id, req.body);
+    const student = await studentModel.findByIdAndUpdate(req.params.id, req.body);
     res.redirect(`/students/${student._id}`);
 }
 

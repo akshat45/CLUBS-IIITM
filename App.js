@@ -5,6 +5,7 @@ import findOrCreate from "mongoose-findorcreate";
 import session from "express-session";
 import passport from "passport";
 import Googlepassport from "passport-google-oauth20";
+import studentModel, { studentSchema } from "./models/students.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
@@ -14,6 +15,7 @@ const __dirname = path.dirname(__filename);
 import dotenv from "dotenv";
 dotenv.config();
 import { username, password } from "./credentials.js";
+
 
 import homeRoute from "./routes/home.js";
 import clubRoute from "./routes/club.js";
@@ -48,22 +50,22 @@ mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: tr
     .then(() => app.listen(PORT, () => console.log(`The server is running on port: ${PORT}`)))
     .catch((error) => console.log(error.message));
 
-const userSchema = new mongoose.Schema({
-        googleId: String
-});
+// const userSchema = new mongoose.Schema({
+//         googleId: String
+// });
 
-userSchema.plugin(findOrCreate);
+studentSchema.plugin(findOrCreate);
 
-const User = mongoose.model("User", userSchema);
+// const User = mongoose.model("User", userSchema);
 
 // use static serialize and deserialize of model for passport session support
-passport.serializeUser(function(user, done) {
-    done(null, user.id);
+passport.serializeUser(function(studentModel, done) {
+    done(null, studentModel.id);
   });
   
   passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
-      done(err, user);
+    studentModel.findById(id, function(err, studentModel) {
+      done(err, studentModel);
     });
   });
 
@@ -76,15 +78,26 @@ passport.use(new GoogleStrategy({
   },
   function(accessToken, refreshToken, profile, cb) {
       // console.log(profile.emails[0].value);
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      return cb(err, user);
+      console.log(profile);
+      studentModel.findOne({
+        googleId: profile.id 
+    }, function(err, student) {
+        if (!student) {
+            var student = new studentModel({
+                name: profile.displayName,
+                email: profile.emails[0].value,
+            });
+            student.save(function(err,studentModel) {
+                if (err) return err;
+            });
+        } 
+        return cb(err,student);
     });
   }
 ));
 
 app.get("/auth/google",
-  passport.authenticate('google', { scope: ["profile"] ,
-  scope:["email"]
+  passport.authenticate('google', { scope: ["profile","email"]
 }));
 
 app.get("/auth/google/club", 

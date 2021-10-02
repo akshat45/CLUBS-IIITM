@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const studentSchema = mongoose.Schema({
+export const studentSchema = mongoose.Schema({
     name: {
         type: String,
         default: "",
@@ -31,8 +31,8 @@ const studentSchema = mongoose.Schema({
         type: Number,
         minimum: 1,
         maximum: 5
-    }
-
+    },
+    GoogleId:String
 });
 
 const studentModel = mongoose.model("studentModel", studentSchema);

@@ -11,6 +11,7 @@ export const studentSchema = mongoose.Schema({
         unique: true,
         required: true
     },
+
     phoneno: Number,
     linkedin: String,
     bio: String,

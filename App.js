@@ -64,6 +64,7 @@ passport.serializeUser(function (studentModel, done) {
 passport.deserializeUser(function (id, done) {
   studentModel.findById(id, function (err, studentModel) {
     done(err, studentModel);
+
   });
 });
 
@@ -105,6 +106,7 @@ app.get("/auth/google",
   passport.authenticate('google', {
     scope: ["profile", "email"]
   }));
+
 
 app.get("/auth/google/club",
   passport.authenticate('google', { failureRedirect: '/home' }),

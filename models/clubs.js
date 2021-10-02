@@ -26,6 +26,10 @@ const clubSchema = mongoose.Schema({
     typeofclub: {
         type: String,
         required: true
+    },
+    imageURL: {
+        type: String,
+        required: true
     }
 });
 

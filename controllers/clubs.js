@@ -10,17 +10,35 @@ export const getClub = async (req, res) => {
         err.status = 406;
         return err;
     }
+    var club0;
 
     try {
-        const club = await clubModel.findOne({ _id: clubId })
-                                    .populate("memberids", "name")
-                                    .populate("presidentid", "name")
-                                    .populate("eventids", "name");
-        return club;
+        club0 = await clubModel.findOne({ _id: clubId });
 
     } catch (error) {
         error.message = "Unable to connect with database.";
         return error;
+
+    }
+
+    if(club0 != null)
+    {
+        try {
+            const club = await clubModel.findOne({ _id: clubId })
+                                        .populate("memberids", "name")
+                                        .populate("presidentid", "name")
+                                        .populate("eventids", "name");
+            return club;
+
+        } catch (error) {
+            error.message = "Unable to connect with database.";
+            return error;
+        }
+    }
+    else {
+        var err = new Error("The Club doesn't exsist.");
+        err.status = 406;
+        return err;
     }
 
 };
@@ -28,7 +46,7 @@ export const getClub = async (req, res) => {
 export const getTechClubs = async (req, res) => {
 
     try {
-        const clubs = await clubModel.find({ typeofclub: "Technical" });
+        const clubs = await clubModel.find({ typeofclub: "Technical" }, "name");
         return clubs;
 
     } catch (error) {
@@ -41,7 +59,7 @@ export const getTechClubs = async (req, res) => {
 export const getCultClubs = async (req, res) => {
 
     try {
-        const clubs = await clubModel.find({ typeofclub: "Cultural" });
+        const clubs = await clubModel.find({ typeofclub: "Cultural" }, "name");
         return clubs;
 
     } catch (error) {

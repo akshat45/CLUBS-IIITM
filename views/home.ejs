@@ -72,7 +72,7 @@
         
         <div class="container fixed-top">
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                Please signin into CLUBSIIITMG
+                Please signin into CLUBSIIITM
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -104,13 +104,13 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <h1 class="masthead-heading mb-0 text-center" style="font-family: 'Kaushan Script', cursive;">Recent Events:</h1>
+                    <h1 class="masthead-heading mb-0 text-center" style="font-family: 'Kaushan Script', cursive;">Upcoming Events:</h1>
                 </div>
                 <div class="col">
                     <div class="row h4">
                         <% for(let event of recentevents) { %> 
                         <div class="col d-md-block">
-                            <a href="/club/61401d31cd6a69c72266e802"><%=event.name%></a>
+                            <a href="/event/<%=event._id%>"><%=event.name%></a>
                         </div>
                         <% } %> 
                         <!-- <div class="col d-none d-md-block">

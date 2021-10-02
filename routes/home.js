@@ -1,7 +1,6 @@
 import express from "express";
 import { getTechClubs, getCultClubs } from "../controllers/clubs.js";
-import { getEvent, getUpcomingEvents } from "../controllers/events.js";
-import { createStudent, index } from "../controllers/students.js";
+import { getUpcomingEvents } from "../controllers/events.js";
 
 const router = express.Router();
 
@@ -35,15 +34,11 @@ router.get('/', async function(req,res,next) {
     
         default:
             res.setHeader("ContentType", "application/json");
-            res.status(200).render('home', {techClubs, cultClubs, recentevents});
-            //res.status(200).json({ techClubs: techClubs, cultClubs: cultClubs, recentevents: recentevents});
-
+            // res.status(200).render('home', {techClubs, cultClubs, recentevents});
+            res.status(200).json({ techClubs: techClubs, cultClubs: cultClubs, recentevents: recentevents});
             break;
     }
     
 });
-
-router.post('/student', createStudent);
-router.get('/student', index);
 
 export default router;

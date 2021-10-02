@@ -1,46 +1,143 @@
-import Student from '../models/students.js';
+import studentModel from '../models/students.js';
 
-export const index = async (req, res) => {
-    const students = await Student.find({});
-    res.json(students);
-    //res.render('students/index', {students});
-}
+export const getStudent = async (req, res) => {
 
-export const renderNewForm = async (req, res) => {
-    res.render('students/new');
-}
-
-export const createStudent = async (req, res, next) => {
-    const student = new Student(req.body);
-    await student.save();
-    res.redirect(`/students/${student._id}`);
-}
-
-export const showStudent = async (req, res) => {
-    const student = await Student.findById(req.params.id);
-    if(!student) {
-        console.log("Cannot find that student");
-        return res.redirect('/students');
+    if(req.session.passport === undefined)
+    {
+        var err = new Error("You are not logged in.");
+        err.status = 400;
+        return err;
     }
-    res.render('students/show', {student});
-}
 
-export const renderEditForm = async (req, res) => {
-    const student = await Student.findById(req.params.id);
-    if(!student) {
-        console.log("Cannot find that student");
-        return res.redirect('/students');
+    const { studentId } = req.params;
+
+    if(!mongoose.Types.ObjectId.isValid(studentId))
+    {
+        var err = new Error("The Student doesn't exsist.");
+        err.status = 406;
+        return err;
     }
-    //res.json()
-    //res.render('students/edit', {student});
-}
 
-export const updateStudent = async (req, res) => {
-    const student = await Student.findByIdAndUpdate(req.params.id, req.body);
-    res.redirect(`/students/${student._id}`);
-}
+    var student;
 
-export const deleteStudent = async (req, res) => {
-    await Student.findByIdAndDelete(req.params.id);
-    res.redirect('/students');
-}
+    try {
+        student = await studentModel.findById(studentId);        
+    } catch (error) {
+        error.message = "Unable to connect with database.";
+        return error;           
+    }
+
+    if(student === null)
+    {
+        var err = new Error("The Student doesn't exsist.");
+        err.status = 406;
+        return err;
+    }
+
+    return student;
+};
+
+export const putStudent = async (req, res) => {
+
+    if(req.session.passport === undefined)
+    {
+        var err = new Error("You are not logged in.");
+        err.status = 400;
+        return err;
+    }
+
+    const { studentId } = req.params;
+    const body = req.body;
+
+    if(!mongoose.Types.ObjectId.isValid(studentId))
+    {
+        var err = new Error("The Student doesn't exsist.");
+        err.status = 406;
+        return err;
+    }
+
+    var student;
+
+    try {
+        student = await studentModel.findById(studentId);        
+    } catch (error) {
+        error.message = "Unable to connect with database.";
+        return error;           
+    }
+
+    if(student === null)
+    {
+        var err = new Error("The Student doesn't exsist.");
+        err.status = 406;
+        return err;
+    }
+
+    if(req.session.passport.user != studentId)
+    {
+        var err = new Error("You are not authorized to edit this detail.");
+        err.status = 406;
+        return err;
+    }
+
+    try {
+        await studentModel.findByIdAndUpdate(studentId, { bio: body.bio, linkedin: body.linkedin, phoneno: body.phoneno});        
+    } catch (error) {
+        error.message = "Unable to connect with database.";
+        return error;           
+    }
+
+    return { message: "The profile is updated successfully." };
+};
+
+export const delStudent = async (req, res) => {
+
+    if(req.session.passport === undefined)
+    {
+        var err = new Error("You are not logged in.");
+        err.status = 400;
+        return err;
+    }
+
+    const { studentId } = req.params;
+
+    if(!mongoose.Types.ObjectId.isValid(studentId))
+    {
+        var err = new Error("The Student doesn't exsist.");
+        err.status = 406;
+        return err;
+    }
+
+    var student;
+
+    try {
+        student = await studentModel.findById(studentId);        
+    } catch (error) {
+        error.message = "Unable to connect with database.";
+        return error;           
+    }
+
+    if(student === null)
+    {
+        var err = new Error("The Student doesn't exsist.");
+        err.status = 406;
+        return err;
+    }
+
+    if(req.session.passport.user != studentId)
+    {
+        var err = new Error("You are not authorized to delete user.");
+        err.status = 406;
+        return err;
+    }
+
+    try {
+        await studentModel.findByIdAndDelete(studentId);        
+    } catch (error) {
+        error.message = "Unable to connect with database.";
+        return error;           
+    }
+
+    // Logging out remaining.
+
+    return { message: "The profile is deleted successfully." };
+};

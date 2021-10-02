@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
-const Schema = mongoose.Schema;
 
-const studentSchema = Schema({
+export const studentSchema = mongoose.Schema({
     name: {
         type: String,
         default: "",
@@ -12,30 +11,16 @@ const studentSchema = Schema({
         unique: true,
         required: true
     },
-    phoneno: {
-        type: Number,
-        unique: true,
-        minimum: 1000000000,
-        maximum: 9999999999,
-        required: true
-    },
-    linkedin: {
-        type: String,
-        default: ""
-    },
-    bio: {
-        type: String,
-        default: ""
-    },
-    branch: {
-        type: String
-    },
-    year: {
-        type: Number,
-        minimum: 1,
-        maximum: 5
-    }
+    phoneno: Number,
+    linkedin: String,
+    bio: String,
+    branch: String,
+    batch: String,
+    rollNo: String,
+    googleId: String
 
 });
 
-export default mongoose.model("Student", studentSchema);
+const studentModel = mongoose.model("studentModel", studentSchema);
+
+export default studentModel;

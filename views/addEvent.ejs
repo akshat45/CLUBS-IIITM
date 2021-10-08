@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Event</title>
+</head>
+<body>
+    <h1>Add Event </h1>
+    <form id="addevent" action="/club/<%=club._id%>/event" method="POST" enctype="multipart/form-data">
+        <div>
+            <label for="name">Event Name</label>
+            <input type="text" id="name" name="name">
+        </div>
+        <div>
+            <label for="date">Event Date</label>
+            <input type="text" id="date" name="date">
+        </div>
+        <div>
+            <label for="meetlink">Event Meetlink</label>
+            <input type="text" id="meetlink" name="meetlink">
+        </div>
+        <div>
+            <label for="description">Event Description</label>
+            <input type="text" id="description" name="description">
+        </div>
+        <div>
+            <label for="banner">Upload Event Banner</label>
+            <input type="file" id="banner" name="banner">
+        </div>
+        <button type="submit" value="submit" form="addevent">Submit</button>
+    </form>
+</body>
+</html>

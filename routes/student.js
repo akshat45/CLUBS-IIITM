@@ -1,11 +1,11 @@
 import express from "express";
-import { getStudent, putStudent, delStudent } from "../controllers/students";
+import { getStudent, putStudent, delStudent } from "../controllers/students.js";
 
 const router = express.Router();
 
 router.get("/:studentId/profile", async function(req,res,next){
 
-    const student = getStudent(req,res);
+    const student = await getStudent(req,res);
 
     if(Object.prototype.toString.call(student) === "[object Error]")
     {
@@ -17,14 +17,15 @@ router.get("/:studentId/profile", async function(req,res,next){
     else
     {
         res.setHeader("ContentType", "application/json");
-        res.status(200).json(student);
+        // res.status(200).json(student);
+        res.render('student',{ student});
     }
 
 });
 
 router.get("/:studentId/edit", async function(req,res,next){
 
-    const student = getStudent(req,res);
+    const student = await getStudent(req,res);
 
     if(Object.prototype.toString.call(student) === "[object Error]")
     {
@@ -43,12 +44,13 @@ router.get("/:studentId/edit", async function(req,res,next){
         }
     
         res.setHeader("ContentType", "application/json");
-        res.status(200).json({ message: "The student edit form will render here.", student: student });
+        // res.status(200).json({ message: "The student edit form will render here.", student: student });
+        res.render('editstudent',{ student});
     }
 
 });
 
-router.put("/:studentId/", async function(req,res,next){
+router.post("/:studentId/", async function(req,res,next){
 
     const student = await putStudent(req,res);
 

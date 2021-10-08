@@ -1,42 +1,46 @@
-{% extends 'base.html' %} {% block title %}
-<title>{<%=club.name%>}</title>
-{% endblock title %}
-
-<div id="page-top"></div>
-{% block link %} href="/" {% endblock link %} {% block navElements %}
 <head>
-    <link rel="stylesheet" type="text/css" href="https://github.com/somyamehta24/clubs-iiti/blob/d099ddab0205a8cb38a52ce5da06ab9b99137264/static/css/style.css">
-    <link rel="stylesheet" type="text/css" href="https://github.com/somyamehta24/clubs-iiti/blob/d099ddab0205a8cb38a52ce5da06ab9b99137264/static/css/main.css">
-    <link rel="stylesheet" type="text/css" href="https://github.com/somyamehta24/clubs-iiti/blob/d099ddab0205a8cb38a52ce5da06ab9b99137264/static/css/error.css">
-    <link rel="stylesheet" type="text/css" href="https://github.com/somyamehta24/clubs-iiti/blob/d099ddab0205a8cb38a52ce5da06ab9b99137264/static/css/datetime.css">
+    <title>
+        <%=club.name%>
+    </title>
+    <div id="page-top"></div>
+
+    <!-- Core theme CSS (includes Bootstrap) -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 
 
 <div class="collapse navbar-collapse" id="navbarResponsive">
 
     <ul class="navbar-nav ml-auto">
-        <!-- <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#Description" style="color:white;">Description</a> -->
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                href="#Description" style="color:white;">Description</a>
         </li>
-        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#achievements" style="color:white;">achievements</a>
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                href="#achievements" style="color:white;">achievements</a>
         </li>
-        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#events" style="color:white;">events</a>
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#events"
+                style="color:white;">events</a>
         </li>
-        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#members" style="color:white;">MEMBERS</a>
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                href="#members" style="color:white;">MEMBERS</a>
         </li>
-        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about" style="color:white;">ABOUT</a>
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about"
+                style="color:white;">ABOUT</a>
         </li>
-        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact" style="color:white;">CONTACT</a>
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                href="#contact" style="color:white;">CONTACT</a>
         </li>
         {% if verified %}
-        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/clubs/{{clubName}}/edit" style="color:white;">Edit</a>
+        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                href="/clubs/{{clubName}}/edit" style="color:white;">Edit</a>
         </li>
         {% endif %}
     </ul>
 
 </div>
-
-{% endblock navElements %} {% block body %}
-
 
 
 <!-- Masthead-->
@@ -44,20 +48,22 @@
     <div class="container d-flex align-items-center flex-column">
         <!-- Masthead Avatar Image-->
 
-        <img class="masthead-avatar mb-5" src={{imageUrl}} alt="" />
+        <img class="masthead-avatar mb-5" src="../images/rotaract.png" alt="not found" />
         <!-- Masthead Heading-->
 
-        <h1 class="masthead-heading text-uppercase mb-0" style="font-family: 'Kaushan Script', cursive;"><%=club.name%></h1>
+        <h1 class="masthead-heading text-uppercase mb-0" style="font-family: 'Kaushan Script', cursive;">
+            <%=club.name%>
+        </h1>
         <!-- Icon Divider-->
         <div class="divider-custom divider-light">
             <div class="divider-custom-line"></div>
             <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
             <div class="divider-custom-line"></div>
         </div>
-        <!-- Masthead Subheading-->
-        {% if member %} {% if notexist %}
-        <a href="/clubs/{{clubName}}/apply" class="btn btn-success btn-lg" style="font-family: 'Ubuntu', sans-serif;">JOIN</a> {% endif %} {% endif %}
-        <!-- <p class="masthead-subheading font-weight-light mb-0">Graphic Artist - Web Designer - Illustrator</p> -->
+        <% if(joinbutton) { %>
+            <a href="<%=club._id%>/approval" class="btn btn-success btn-lg"
+                style="font-family: 'Ubuntu', sans-serif;">JOIN</a>
+            <% } %>
     </div>
 </header>
 
@@ -65,7 +71,8 @@
 <section class="page-section portfolio" id="Description">
     <div class="container">
         <!-- Portfolio Section Heading-->
-        <!-- <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0" style="font-family: 'Kaushan Script', cursive;">Description</h2> -->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"
+            style="font-family: 'Kaushan Script', cursive;">Description</h2>
         <!-- Icon Divider-->
         <div class="divider-custom">
             <div class="divider-custom-line"></div>
@@ -76,7 +83,13 @@
         <div class="row">
             <!-- Portfolio Item 1-->
             <div class="col-md-12 col-lg-12 mb-5">
-                <div class="portfolio-item mx-auto" style="font-family: 'Ubuntu', sans-serif;">{{info}}</div>
+                <div class="portfolio-item mx-auto" style="font-family: 'Ubuntu', sans-serif;">
+                    <figure class="text-center">
+                        <blockquote class="blockquote">
+                                <%= club.description %>
+                        </blockquote>
+                    </figure>
+                </div>
             </div>
         </div>
     </div>
@@ -85,7 +98,8 @@
 <section class="page-section portfolio" id="achievements">
     <div class="container">
         <!-- Portfolio Section Heading-->
-        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0" style="font-family: 'Kaushan Script', cursive;">Achievements</h2>
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"
+            style="font-family: 'Kaushan Script', cursive;">Achievements</h2>
         <!-- Icon Divider-->
         <div class="divider-custom">
             <div class="divider-custom-line"></div>
@@ -96,7 +110,15 @@
         <div class="row">
             <!-- Portfolio Item 1-->
             <div class="col-md-12 col-lg-12 mb-5">
-                <div class="portfolio-item mx-auto" style="font-family: 'Ubuntu', sans-serif;"><%= club.achievements%></div>
+                <div class="portfolio-item mx-auto" style="font-family: 'Ubuntu', sans-serif;">
+                    <ul class="list-group">
+                        <% const acheiv=club.achievements; for (key in acheiv) { %>
+                            <li class="list-group-item">
+                                <%= acheiv[key]%>
+                            </li><br>
+                            <% } %>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -105,7 +127,8 @@
 <section class="page-section portfolio" id="events">
     <div class="container">
         <!-- Event Section Heading-->
-        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0" style="font-family: 'Kaushan Script', cursive;">Events</h2>
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"
+            style="font-family: 'Kaushan Script', cursive;">Events</h2>
         <!-- Icon Divider-->
         <div class="divider-custom">
             <div class="divider-custom-line"></div>
@@ -113,15 +136,22 @@
             <div class="divider-custom-line"></div>
         </div>
         <!-- Event Grid Items-->
-        <div class="row">
-            <div class="col-md-12 col-lg-12 mb-5">
-                <div class="portfolio-item mx-auto container" style="font-family: 'Ubuntu', sans-serif;">
-                    <% const obj = club.eventids;
-                        for (key in obj) { %>
-                        <br/>  <%= obj[key].name %> 
-                    <% } %>
+        <div style="display: flex; flex-direction: row;">
+            <% const obj=club.eventids; for (key in obj) { %>
+                <div class="card" style="width: 18rem;margin: 5px;min-height: max-content;">
+                    <div class="card-body" style="min-height: max-content;">
+                        <img src="../images/rotaract.png" class="card-img-top" alt="not found"
+                            style="height:100px; width:150px">
+                        <h5 class="card-title">
+                            <%= obj[key].name %>
+                        </h5>
+                        <p class="card-text">
+                            <%= obj[key].description %>
+                        </p>
+                        <a class="btn btn-primary" href=<%=obj[key].link %>>Join event</a>
+                    </div>
                 </div>
-            </div>
+                <% } %>
         </div>
     </div>
 </section>
@@ -129,149 +159,61 @@
 <section class="page-section portfolio" id="members">
     <div class="container">
         <!-- members Section Heading-->
-        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0" style="font-family: 'Kaushan Script', cursive;">MEMBERS</h2>
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"
+            style="font-family: 'Kaushan Script', cursive;">MEMBERS</h2>
         <!-- Icon Divider-->
         <div class="divider-custom">
             <div class="divider-custom-line"></div>
             <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
             <div class="divider-custom-line"></div>
         </div>
+        <ul class="list-group">
+            <% const member=club.memberids; for (key in member) { %>
+                <li class="list-group-item row">
+                    <a href="/student/<%=member[key]._id%>/profile"
+                        style="color: darkblue; font-family: 'Ubuntu', sans-serif;" class="col">
+                        <%= member[key].name%>
+                    </a>
+                    <% if(verifypresident) { %>
+                        <a class="btn btn-danger col-sm-2 offset-md-2 "
+                            href="<%=club._id%>/remove/<%=member[key]._id%>">Remove</a>
+                        <% } %>
+                </li>
+                <% } %>
+        </ul>
+    </div>
+</section>
+<section class="page-section">
+        <% if(approvals.length!==0) { %>
+                <div class="container">
+                    <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"
+                    style="font-family: 'Kaushan Script', cursive;">New Approvals</h2>
+                    <div class="divider-custom">
+                        <div class="divider-custom-line"></div>
+                        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                        <div class="divider-custom-line"></div>
+                    </div>
 
-        <% const member = club.memberids;
-                        for (key in member) { %>
-                        <br/>  <%= member[key].name %> 
-                    <% } %>
-        <div class="container text-center">
-            <div>
-                <h1 style="font-family: 'Fondamento', cursive;">New Recruits</h1>
-            </div>
-            <!-- <% if(approvals)%> -->
-            <%= approvals%>
-            <div class="divider-custom">
-                <!-- <div>NO NEW APPLICANTS</div> -->
-            </div>
-
-            {% else %}
-            <table width="100%" style="font-family: 'Frank Ruhl Libre', serif;">
-                <col style="width:20%">
-                <col style="width:20%">
-                <col style="width:20%">
-                <col style="width:20%">
-                <col style="width:20%">
-                <tr>
-                    <th>
-                        Name
-                    </th>
-                    <th>
-                        Email
-                    </th>
-                    <th>
-                        Action
-                    </th>
-
-                </tr>
-
-                {%for row in newRecruits%}
-                <tr>
-                    <td>
-
-                        <a href="/clubs/{{clubName}}/{{row.1}}">
-                            {{row.0}}
-                        </a>
-                    </td>
-                    <td>
-                        <a href="mailto:{{row.1}}">
-                            {{row.1}}
-                        </a>
-                    </td>
-                    {% if verified %}
-                    <td>
-                        <a href="/clubs/{{clubName}}/approve/{{row.1}}" class="btn btn-success btn-sm ">Approve</a>
-                        <a href="/clubs/{{clubName}}/reject/{{row.1}}" class="btn btn-danger btn-sm ">Reject</a> {% if row.2 == 'U' %}
-                        <a href="/clubs/{{clubName}}/schedule/{{row.1}}" class="btn btn-warning btn-sm ">Schedule</a> {% else %}
-                        <a href="/clubs/{{clubName}}/meeting/{{row.1}}" class="btn btn-warning btn-sm ">Details</a> {% endif %}
-
-
-                    </td>
-                    {% endif %}
-
-
-                </tr>
-                {%endfor%}
-
-
-            </table>
-            {% endif %}
-
-
-
-
-
-
-
-        </div>
-        {% endif %}
-
-
-        <div class="container text-center">
-            <div>
-                <h1 style="font-family: 'Fondamento', cursive;">Current Members</h1>
-            </div>
-            <table width="100%" style="font-family: 'Frank Ruhl Libre', serif;">
-                <col style="width:20%">
-                <col style="width:20%">
-                <col style="width:20%">
-                <col style="width:20%">
-                <col style="width:20%">
-                <tr>
-                    <th>
-                        Name
-                    </th>
-                    <th>
-                        Email
-                    </th>
-                    {% if verified %}
-                    <th>
-                        Action
-                    </th>
-                    {% endif %}
-
-                </tr>
-                <% for(row in member)
-                {%> <tr>
-                    <td>
-                        <a href="/clubs/{{clubName}}/{{row.1}}">
-                            <%= member[row].name%>
-                        </a>
-
-                    </td>
-                    <td>
-                        <!-- <a href="mailto:{{row.1}}">
-                            {{row.1}}
-                        </a> -->
-                    </td>
-                    {% if verified %}
-                    <td>
-                        <a href="/clubs/{{clubName}}/remove/{{row.1}}" class="btn btn-danger btn-sm ">REMOVE</a>
-                    </td>
-                    {% endif %}
-
-
-                </tr><%}
-                %>
-            </table>
-            </table>
-
-        </div>
+                
+                    <ul class="list-group">
+                        <% for(request in approvals){ %>
+                            <li class="list-group-item row">
+                                <a href="/student/<%= approvals[request].studentid._id %>/profile" class="col-xs-6 col-md-8"  style="color: darkblue; font-family: 'Ubuntu', sans-serif;">
+                                    <%= approvals[request].studentid.name %>
+                                </a>
+                                <div class="col-xs-6 col-md-4">
+                                <a href="/approval/<%= approvals[request]._id %>/approve"
+                                    class="btn btn-success btn-sm">Approve</a>
+                                <a href="/approval/<%= approvals[request]._id %>/meet" class="btn btn-warning btn-sm">Schedule
+                                    Meet</a>
+                                <a href="/approval/<%= approvals[request]._id %>/decline" class="btn btn-danger btn-sm">Reject</a>
+                                </div>
+                            </li>
+                            <% } %>
+                    </ul>
+                </div>
+            <% } %>
 </section>
 
 </div>
 </section>
-
-
-
-
-
-
-
-{% endblock %}

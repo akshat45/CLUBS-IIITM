@@ -100,7 +100,8 @@ router.get("/:approvalId/meet", async function (req, res, next) {
 
     try {
         approval = await approvalModel.findById(approvalId)
-                                      .populate("clubid", "presidentid");
+                                      .populate("clubid", "presidentid")
+                                      .populate("studentid", "name");
         
     } catch (error) {
         error.message = "Unable to access database.";
@@ -124,7 +125,8 @@ router.get("/:approvalId/meet", async function (req, res, next) {
         return;
     }
 
-    res.status(200).send("Meet form will be loaded here.");
+    // res.status(200).send("Meet form will be loaded here.");
+    res.render('scheduleInterview',{approval});
 
 });
 

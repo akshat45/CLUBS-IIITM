@@ -3,15 +3,15 @@ import mongoose from "mongoose";
 import nodemailer from "nodemailer";
 import approvalModel from "../models/approvals.js";
 import { approveApproval, declineApproval } from "../controllers/approvals.js";
-import { usern, passw } from "../credentials.js"
+// import { usern, passw } from "../credentials.js"
 
 const router = express.Router();
 
 const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-        user: usern,
-        pass: passw
+        user: process.env.usern,
+        pass: process.env.passw
     }
 });
 

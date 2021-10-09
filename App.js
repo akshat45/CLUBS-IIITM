@@ -14,7 +14,7 @@ const __dirname = path.dirname(__filename);
 
 import dotenv from "dotenv";
 dotenv.config();
-import { username, password } from "./credentials.js";
+// import { username, password } from "./credentials.js";
 
 
 import homeRoute from "./routes/home.js";
@@ -49,12 +49,29 @@ app.use("/event", eventRoute);
 app.use("/approval",approvalRoute);
 app.use("/student", studentRoute);
 
-const CONNECTION_URL = `mongodb+srv://${username}:${password}@clubsiiitm.awqoq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const PORT = process.env.PORT || 5000;
 
-mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => app.listen(PORT, () => console.log(`The server is running on port: ${PORT}`)))
   .catch((error) => console.log(error.message));
+
+
+var gfs;
+const conn = mongoose.connection;
+
+conn.once("open", () => {
+    gfs = new mongoose.mongo.GridFSBucket(conn.db, { bucketName: "Images" });
+});
+
+app.get("/image/:imageId", async (req,res) => {
+    try {
+      const readStream = await gfs.openDownloadStream(new mongoose.Types.ObjectId(req.params.imageId));
+      readStream.pipe(res);
+    } catch (error) {
+      console.log(error)
+      res.send(' ');
+    }
+});
 
 
 passport.serializeUser(function (studentModel, done) {
@@ -110,4 +127,10 @@ app.get("/auth/google/club",
   passport.authenticate('google', { failureRedirect: '/home' }),
   function (req, res) {
     res.redirect('/home');
+  });
+
+  app.get('/logout', function (req, res){
+    req.session.destroy(function (err) {
+      res.redirect('/home'); //Inside a callback… bulletproof!
+    });
   });

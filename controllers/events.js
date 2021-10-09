@@ -38,8 +38,7 @@ export const getEvent = async (req,res) => {
     }
 
     try {
-        const event = await eventModel.findOne({ _id: eventId})
-                                      .populate("clubid", "presidentid");
+        const event = await eventModel.findOne({ _id: eventId});
         return event;
         
     } catch (error) {
@@ -52,12 +51,14 @@ export const getEvent = async (req,res) => {
 export const getUpcomingEvents = async (req,res) => {
 
     try {
-        const events = await eventModel.find({},[ "name", "date" ]);
-        const comp = new Date().getTime();
-        const comtime = 604800000;
-        var recentevents = [];
-        events.map((event) => { if(Math.abs(comp-(event.date).getTime()) <= comtime && (comp-(event.date).getTime()) <= 0) recentevents.push(event); });
-        return recentevents;
+        const comp = new Date();
+        const events = await eventModel.find()
+                                       .where("date").gt(comp)
+                                       .sort("date")
+                                       .limit(3)
+                                       .select("name");
+        
+        return events;
         
     } catch (error) {
         error.message = "Unable to connect with database.";
@@ -87,15 +88,13 @@ export const postEvent = async (req,res) => {
     var club;
 
     try {
-        club = await clubModel.findById(clubId);
-        
+        club = await clubModel.findById(clubId);     
     } catch (error) {
         error.message("Unable to connect to database.");
         return error;
     }
 
-    const body = req.body;
-    const newevent = new eventModel(body);
+    const newevent = new eventModel(req.body);
 
     if(club != null)
     {
@@ -110,7 +109,6 @@ export const postEvent = async (req,res) => {
             try {
                 await clubModel.findOneAndUpdate({ _id: clubId }, { $push: { eventids: newevent._id } });
                 return newevent;
-            
             } catch (error) {
                 error.status = 400;
                 error.message = "The club doesn't exsist.";
@@ -152,8 +150,7 @@ export const putEvent = async (req,res) => {
     var event;
     
     try {
-        event = await eventModel.findOne({ _id: eventId })
-                                .populate("clubid", "presidentid");
+        event = await eventModel.findOne({ _id: eventId });
         
     } catch (error) {
         error.message = "Unable to connect with database.";
@@ -163,7 +160,9 @@ export const putEvent = async (req,res) => {
     
     if(event!=null)
     {
-        if(event.clubid.presidentid != req.session.passport.user)
+        const club = await clubModel.findOne({ eventids: { $elemMatch: { $eq: event._id } } })
+
+        if(club.presidentid != req.session.passport.user)
         {
             var err = new Error("You are not president of club.");
             err.status = 400;
@@ -171,7 +170,7 @@ export const putEvent = async (req,res) => {
         }
         try {
             await eventModel.updateOne({ _id: req.body._id }, req.body);
-            return (await eventModel.findOne(req.body));
+            return await eventModel.findOne(req.body);
         
         } catch (error) {
             error.message = "Meetlink or Event name already exsists";
@@ -207,8 +206,7 @@ export const delEvent = async (req,res) => {
     var event;
 
     try {
-        event = await eventModel.findOne({ _id: eventId})
-                                .populate("clubid", "presidentid");
+        event = await eventModel.findOne({ _id: eventId});
         
     } catch (error) {
         return error;  
@@ -217,7 +215,9 @@ export const delEvent = async (req,res) => {
     
     if(event!=null)
     {
-        if(event.clubid.presidentid != req.session.passport.user)
+        const club = await clubModel.findOne({ eventids: { $elemMatch: { $eq: event._id } } })
+
+        if(club.presidentid != req.session.passport.user)
         {
             var err = new Error("You are not president of club.");
             err.status = 400;
@@ -225,6 +225,7 @@ export const delEvent = async (req,res) => {
         }
         try {
             await eventModel.deleteOne({ _id: eventId });
+            await clubModel.findByIdAndUpdate(club._id,{ $pull: { eventids: event._id } })
             return event;
         
         } catch (error) {

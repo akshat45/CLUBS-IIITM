@@ -34,8 +34,9 @@ router.get('/', async function(req,res,next) {
     
         default:
             res.setHeader("ContentType", "application/json");
-            // res.status(200).render('home', {techClubs, cultClubs, recentevents});
-            res.status(200).json({ techClubs: techClubs, cultClubs: cultClubs, recentevents: recentevents});
+
+            res.status(200).render('home', {techClubs, cultClubs, recentevents});
+            // res.status(200).json({ techClubs: techClubs, cultClubs: cultClubs, recentevents: recentevents});
             break;
     }
     

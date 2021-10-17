@@ -3,15 +3,14 @@ import mongoose from "mongoose";
 import nodemailer from "nodemailer";
 import approvalModel from "../models/approvals.js";
 import { approveApproval, declineApproval } from "../controllers/approvals.js";
-import { usern, passw } from "../credentials.js"
 
 const router = express.Router();
 
 const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-        user: usern,
-        pass: passw
+        user: process.env.usern,
+        pass: process.env.passw
     }
 });
 
@@ -22,28 +21,36 @@ router.get("/:approvalId/approve", async function (req, res, next) {
 
     if (Object.prototype.toString.call(approve) === "[object Error]") 
     {
-        if ((approve.status) < 500)
-        res.status(approve.status).send(approve.message);
-        else
-        next(approve.message);
+        res.status(approve.status)
+        req.flash("message", approve.message );
+        req.flash("status", approve.status);
+        res.redirect("/home");
+        return ;
     }
     else 
     {
-        res.setHeader("ContentType", "application/json");
-        res.status(200).json({ message: "The approval approved successfully."});
+        res.status(200)
+        req.flash("message", "The Approval approved Successfully." );
+        req.flash("status", 200);
 
         var mailOptions =  
         {
-            from: usern,
+            from: process.env.usern,
             to: approve.studentid.email,
             subject: `WELCOME to ${approve.clubid.name} Club`,
             text: `Congratulations ${approve.studentid.name}, your approval for joining the ${approve.clubid.name} Club is approved.`
         };
 
         transporter.sendMail(mailOptions, function (error, info) {
-            next(error);
+            error.message = "Unable to send mail right now.";
+            error.status = 500;
+            res.status(error.status)
+            req.flash("message", error.message );
+            req.flash("status", error.status);
         });
     }
+    
+    res.redirect(`/club/${approve.clubid._id}`);
 
 });
 
@@ -53,27 +60,35 @@ router.get("/:approvalId/decline", async function (req, res, next) {
 
     if (Object.prototype.toString.call(decline) === "[object Error]") {
 
-        if ((decline.status) < 500)
-        res.status(decline.status).send(decline.message);
-        else
-        next(decline.message);
+        res.status(decline.status)
+        req.flash("message", decline.message );
+        req.flash("status", decline.status);
+        res.redirect("/home");
+        return ;
     }
     else 
     {
-        res.setHeader("ContentType", "application/json");
-        res.status(200).json({ message: "The Approval declined Successfully."});
+        res.status(200)
+        req.flash("message", "The Approval declined Successfully." );
+        req.flash("status", 200);
 
         var mailOptions = {
-            from: usern,
+            from: process.env.usern,
             to: decline.studentid.email,
             subject: `Approval Declined`,
             text: `Sorry ${decline.studentid.name}, you approval for joining the ${decline.clubid.name} Club was declined.`
         };
 
         transporter.sendMail(mailOptions, function (error, info) {
-            next(error);
+            error.message = "Unable to send mail right now.";
+            error.status = 500;
+            res.status(error.status)
+            req.flash("message", error.message );
+            req.flash("status", error.status);
         });
     }
+
+    res.redirect(`/club/${decline.clubid._id}`);
 
 });
 
@@ -83,8 +98,11 @@ router.get("/:approvalId/meet", async function (req, res, next) {
     {
         var err = new Error("You are not logged in.");
         err.status = 400;
-        res.status(400).send(err.message);
-        return;
+        res.status(err.status)
+        req.flash("message", err.message );
+        req.flash("status", err.status);
+        res.redirect("/home");
+        return ;
     }
 
     const { approvalId } = req.params;
@@ -93,39 +111,51 @@ router.get("/:approvalId/meet", async function (req, res, next) {
     {
         var err = new Error("The Approval doesn't exsist.");
         err.status = 406;
-        res.status(406).send(err.message)
-        return;
+        res.status(err.status)
+        req.flash("message", err.message );
+        req.flash("status", err.status);
+        res.redirect("/home");
+        return ;
     }
     var approval;
 
     try {
         approval = await approvalModel.findById(approvalId)
-                                      .populate("clubid", "presidentid");
+                                      .populate("clubid", "presidentid")
+                                      .populate("studentid", "name");
         
     } catch (error) {
         error.message = "Unable to access database.";
-        res.status(500).send(error.message);
-        return;        
+        res.status(error.status)
+        req.flash("message", error.message );
+        req.flash("status", error.status);
+        res.redirect("/home");
+        return ;      
     }
 
     if(approval == null)
     {
         var err = new Error("The Approval doesn't exsist.");
         err.status = 400;
-        res.status(400).send(err.message);
-        return;
+        res.status(err.status)
+        req.flash("message", err.message );
+        req.flash("status", err.status);
+        res.redirect("/home");
+        return ;
     }
     
     if(req.session.passport.user != approval.clubid.presidentid )
     {
         var err = new Error("You are not president of club.");
         err.status = 400;
-        res.status(400).send(err.message);
+        res.status(err.status)
+        req.flash("message", err.message );
+        req.flash("status", err.status);
+        res.redirect(`/club/${approval.clubid._id}`);
         return;
     }
 
-    res.status(200).send("Meet form will be loaded here.");
-
+    res.render('scheduleInterview',{ approval });
 });
 
 router.post("/:approvalId/meet", async function(req, res, next){
@@ -134,8 +164,11 @@ router.post("/:approvalId/meet", async function(req, res, next){
     {
         var err = new Error("You are not logged in.");
         err.status = 400;
-        res.status(400).send(err.message);
-        return;
+        res.status(err.status)
+        req.flash("message", err.message );
+        req.flash("status", err.status);
+        res.redirect("/home");
+        return ;
     }
 
     const { approvalId } = req.params;
@@ -144,8 +177,11 @@ router.post("/:approvalId/meet", async function(req, res, next){
     {
         var err = new Error("The Approval doesn't exsist.");
         err.status = 406;
-        res.status(406).send(err.message)
-        return;
+        res.status(err.status)
+        req.flash("message", err.message );
+        req.flash("status", err.status);
+        res.redirect("/home");
+        return ;
     }
 
     const body = req.body;
@@ -172,41 +208,59 @@ router.post("/:approvalId/meet", async function(req, res, next){
         
     } catch (error) {
         error.message = "Unable to access database.";
-        res.status(500).send(error.message);
-        return;        
+        res.status(error.status)
+        req.flash("message", error.message );
+        req.flash("status", error.status);
+        res.redirect("/home");
+        return ;     
     }
 
     if(approval == null)
     {
         var err = new Error("The Approval doesn't exsist.");
         err.status = 400;
-        res.status(400).send(err.message);
-        return;
+        res.status(err.status)
+        req.flash("message", err.message );
+        req.flash("status", err.status);
+        res.redirect("/home");
+        return ;
     }
     
     if(req.session.passport.user != approval.clubid.presidentid )
     {
         var err = new Error("You are not president of club.");
         err.status = 400;
-        res.status(400).send(err.message);
+        res.status(err.status)
+        req.flash("message", err.message );
+        req.flash("status", err.status);
+        res.redirect(`/club/${approval.clubid._id}`);
         return;
     }
 
+    
     var mailOptions = {
-        from: usern,
+        from: process.env.usern,
         to: approval.studentid.email,
         bcc: req.user.email,
         subject: "Invitation to interview",
         text: `Dear ${approval.studentid.name},\nThe president of ${approval.clubid.name} Club wants to interview you on ${body.date} at ${body.time}.\nThe meet link is ${meet}.`
     };
-
+    
     transporter.sendMail(mailOptions, function (error, info) {
-        res.status(error.status).send(error.message);
-        next(error);
+        error.message = "Unable to send mail right now.";
+        error.status = 500;
+        res.status(error.status)
+        req.flash("message", error.message );
+        req.flash("status", error.status);
+        res.redirect(`/club/${approval.clubid._id}`);
         return;
     });
+    
+    res.status(200)
+    req.flash("message", "The Meeting is Scheduled Successfully." );
+    req.flash("status", 200);
 
-    res.status(200).json({ message: "Interview Scheduled Successfully for details check your mail." })
+    res.redirect(`/club/${approval.clubid._id}`);
     
 });
 

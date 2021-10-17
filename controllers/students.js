@@ -1,4 +1,6 @@
 import studentModel from '../models/students.js';
+import mongoose from "mongoose";
+import clubModel from '../models/clubs.js';
 
 export const getStudent = async (req, res) => {
 
@@ -131,7 +133,8 @@ export const delStudent = async (req, res) => {
     }
 
     try {
-        await studentModel.findByIdAndDelete(studentId);        
+        await clubModel.updateMany({ memberids: { $elemMatch: { $eq: student._id } } }, { $pull: { memberids: student._id } });
+        await studentModel.findByIdAndDelete(studentId); 
     } catch (error) {
         error.message = "Unable to connect with database.";
         return error;           

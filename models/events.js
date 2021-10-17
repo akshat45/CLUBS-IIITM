@@ -8,13 +8,16 @@ const eventSchema = mongoose.Schema({
     },
     date: {
         type: Date,
-        required: true
     },
     meetlink: {
         type: String,
         unique: true
     },
-    description: String
+    description: String,
+    image: {
+        url: String,
+        filename: String
+    }
 });
 
 const eventModel = mongoose.model("eventModel", eventSchema);

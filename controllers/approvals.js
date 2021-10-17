@@ -224,7 +224,6 @@ export const getClubApprovals = async (req,res) => {
     {
         if(req.session.passport.user != club.presidentid )
         {
-            console.log("here");
             return [];
         }
 

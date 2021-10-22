@@ -27,18 +27,18 @@ export const getEvent = async (req,res) => {
         
     } catch (error) {
         error.message = "Unable to connect with database.";
-        res.status(error.status).send(error.message);          
+        return error;     
     }
 
     if(eventt === null)
     {
         var err = new Error("The Event doesn't exsist.");
         err.status = 406;
-        res.status(error.status).send(error.message); 
+        return err;
     }
 
     try {
-        const event = await eventModel.findOne({ _id: eventId});
+        const event = await eventModel.findOne({ _id: eventId });
         return event;
         
     } catch (error) {
@@ -94,6 +94,8 @@ export const postEvent = async (req,res) => {
         return error;
     }
 
+    req.body.date = new Date(req.body.date + " " + req.body.time);
+
     const newevent = new eventModel(req.body);
 
     if(club != null)
@@ -105,7 +107,11 @@ export const postEvent = async (req,res) => {
             return err;
         }
         try {
+            if(req.file != undefined)
+            newevent.image = req.file.id;
+
             await newevent.save();
+            
             try {
                 await clubModel.findOneAndUpdate({ _id: clubId }, { $push: { eventids: newevent._id } });
                 return newevent;
@@ -116,7 +122,7 @@ export const postEvent = async (req,res) => {
             }
         
         } catch (error) {
-            error.message = "Meetlink or Event name already exsists";
+            error.message = "Meetlink or Event name already exsists or Date entered is invalid.";
             return error;     
         }
     }
@@ -139,6 +145,7 @@ export const putEvent = async (req,res) => {
     }
     
     const { eventId } = req.params;
+    var body = req.body;
 
     if(!mongoose.Types.ObjectId.isValid(eventId))
     {
@@ -169,11 +176,25 @@ export const putEvent = async (req,res) => {
             return err;
         }
         try {
-            await eventModel.updateOne({ _id: req.body._id }, req.body);
-            return await eventModel.findOne(req.body);
+            if(!(req.file === undefined))
+            {
+                if(!(event.image === undefined))
+                {
+                    var gfs;
+                    const conn = mongoose.connection;
+                    gfs = new mongoose.mongo.GridFSBucket(conn.db, { bucketName: "Images" });
+
+                    await gfs.delete(new mongoose.Types.ObjectId(event.image));
+                }
+
+                body.image = req.file.id;
+            }
+            
+            await eventModel.updateOne({ _id: eventId }, body);
+            return await eventModel.findOne(body);
         
         } catch (error) {
-            error.message = "Meetlink or Event name already exsists";
+            error.message = "Meetlink or Event name already exsists or date entered is invalid.";
             return error;
         }
     }
@@ -224,8 +245,17 @@ export const delEvent = async (req,res) => {
             return err;
         }
         try {
+            if(event.image != undefined)
+            {
+                var gfs;
+                const conn = mongoose.connection;
+                gfs = new mongoose.mongo.GridFSBucket(conn.db, { bucketName: "Images" });
+
+                await gfs.delete(new mongoose.Types.ObjectId(event.image));
+            }
+
+            await clubModel.findByIdAndUpdate(club._id,{ $pull: { eventids: event._id } });
             await eventModel.deleteOne({ _id: eventId });
-            await clubModel.findByIdAndUpdate(club._id,{ $pull: { eventids: event._id } })
             return event;
         
         } catch (error) {

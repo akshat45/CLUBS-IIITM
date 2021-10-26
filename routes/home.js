@@ -49,7 +49,6 @@ router.get('/', async function(req,res,next) {
             // res.status(200).json({ techClubs: techClubs, cultClubs: cultClubs, recentevents: recentevents});
             break;
     }
-    
 });
 
 export default router;

@@ -4,9 +4,33 @@ import eventModel from "../models/events.js";
 
 export const getEvent = async (req,res) => {
 
-    const { eventId: _id } = req.params;
+    if(req.session.passport === undefined)
+    {
+        var err = new Error("You are not logged in.");
+        err.status = 400;
+        return err;
+    }
 
-    if(!mongoose.Types.ObjectId.isValid(_id))
+    const { eventId } = req.params;
+
+    if(!mongoose.Types.ObjectId.isValid(eventId))
+    {
+        var err = new Error("The Event doesn't exsist.");
+        err.status = 406;
+        return err;
+    }
+
+    var eventt;
+    
+    try {
+        eventt = await eventModel.findOne({ _id: eventId });
+        
+    } catch (error) {
+        error.message = "Unable to connect with database.";
+        return error;     
+    }
+
+    if(eventt === null)
     {
         var err = new Error("The Event doesn't exsist.");
         err.status = 406;
@@ -14,7 +38,7 @@ export const getEvent = async (req,res) => {
     }
 
     try {
-        const event = await eventModel.findOne({ _id: _id});
+        const event = await eventModel.findOne({ _id: eventId });
         return event;
         
     } catch (error) {
@@ -27,23 +51,13 @@ export const getEvent = async (req,res) => {
 export const getUpcomingEvents = async (req,res) => {
 
     try {
-        const events = await eventModel.find();
-        const comp = new Date().getTime();
-        const comtime = 604800000;
-        var recentevents = [];
-        events.map((event) => { if(Math.abs(comp-(event.date).getTime()) <= comtime && (comp-(event.date).getTime()) <= 0) recentevents.push(event); });
-        return recentevents;
+        const comp = new Date();
+        const events = await eventModel.find()
+                                       .where("date").gt(comp)
+                                       .sort("date")
+                                       .limit(3)
+                                       .select("name");
         
-    } catch (error) {
-        error.message = "Unable to connect with database.";
-        return error;
-    }
-
-};
-
-export const getEvents = async (req,res) => {
-    try {
-        const events = await eventModel.find();
         return events;
         
     } catch (error) {
@@ -55,6 +69,13 @@ export const getEvents = async (req,res) => {
 
 export const postEvent = async (req,res) => {
 
+    if(req.session.passport === undefined)
+    {
+        var err = new Error("You are not logged in.");
+        err.status = 400;
+        return err;
+    }
+
     const { clubId } = req.params;
     
     if(!mongoose.Types.ObjectId.isValid(clubId))
@@ -64,65 +85,149 @@ export const postEvent = async (req,res) => {
         return err; 
     }
 
-    const body = req.body;
-    const newevent = new eventModel(body);
+    var club;
 
     try {
-        await newevent.save();
-        try {
-            await clubModel.findOneAndUpdate({ _id: clubId }, { $push: { eventids: newevent._id } });
-            return newevent;
-            
-        } catch (error) {
-            error.status = 400;
-            error.message = "The club doesn't exsist.";
-            return error;            
-        }
-        
+        club = await clubModel.findById(clubId);     
     } catch (error) {
-        error.message = "Meetlink or Event name already exsists";
-        return error;     
+        error.message("Unable to connect to database.");
+        return error;
+    }
+
+    req.body.date = new Date(req.body.date + " " + req.body.time);
+
+    const newevent = new eventModel(req.body);
+
+    if(club != null)
+    {
+        if(club.presidentid != req.session.passport.user)
+        {
+            var err = new Error("You are not president of club.");
+            err.status = 400;
+            return err;
+        }
+        try {
+            if(req.file != undefined)
+            newevent.image = req.file.id;
+
+            await newevent.save();
+            
+            try {
+                await clubModel.findOneAndUpdate({ _id: clubId }, { $push: { eventids: newevent._id } });
+                return newevent;
+            } catch (error) {
+                error.status = 400;
+                error.message = "The club doesn't exsist.";
+                return error;            
+            }
+        
+        } catch (error) {
+            error.message = "Meetlink or Event name already exsists or Date entered is invalid.";
+            return error;     
+        }
+    }
+    else
+    {
+        var err = new Error("The Club doesn't exsist.");
+        err.status = 406;
+        return err;
     }
 
 };
 
 export const putEvent = async (req,res) => {
-    var event;
 
+    if(req.session.passport === undefined)
+    {
+        var err = new Error("You are not logged in.");
+        err.status = 400;
+        return err;
+    }
+    
+    const { eventId } = req.params;
+    var body = req.body;
+
+    if(!mongoose.Types.ObjectId.isValid(eventId))
+    {
+        var err = new Error("The Event doesn't exsist.");
+        err.status = 406;
+        return err;
+    }
+
+    var event;
+    
     try {
-        event = await eventModel.findOne({ _id: req.body._id});
+        event = await eventModel.findOne({ _id: eventId });
         
     } catch (error) {
         error.message = "Unable to connect with database.";
         return error;   
-
+        
     }
     
     if(event!=null)
     {
+        const club = await clubModel.findOne({ eventids: { $elemMatch: { $eq: event._id } } })
+
+        if(club.presidentid != req.session.passport.user)
+        {
+            var err = new Error("You are not president of club.");
+            err.status = 400;
+            return err;
+        }
         try {
-            await eventModel.updateOne({ _id: req.body._id }, req.body);
-            return (await eventModel.findOne(req.body));
+            if(!(req.file === undefined))
+            {
+                if(!(event.image === undefined))
+                {
+                    var gfs;
+                    const conn = mongoose.connection;
+                    gfs = new mongoose.mongo.GridFSBucket(conn.db, { bucketName: "Images" });
+
+                    await gfs.delete(new mongoose.Types.ObjectId(event.image));
+                }
+
+                body.image = req.file.id;
+            }
+            
+            await eventModel.updateOne({ _id: eventId }, body);
+            return await eventModel.findOne(body);
         
         } catch (error) {
-            error.message = "Meetlink or Event name already exsists";
+            error.message = "Meetlink or Event name already exsists or date entered is invalid.";
             return error;
         }
     }
     else
     {
         var err = new Error("The Event doesn't exsist.");
-        err.code(406);
+        err.status = 406;
         return err;
     }
 };
 
 export const delEvent = async (req,res) => {
 
+    if(req.session.passport === undefined)
+    {
+        var err = new Error("You are not logged in.");
+        err.status = 400;
+        return err;
+    }
+
+    const { eventId } = req.params;
+
+    if(!mongoose.Types.ObjectId.isValid(eventId))
+    {
+        var err = new Error("The Event doesn't exsist.");
+        err.status = 406;
+        return err;
+    }
+
     var event;
 
     try {
-        event = await eventModel.findOne({ _id: req.body._id});
+        event = await eventModel.findOne({ _id: eventId});
         
     } catch (error) {
         return error;  
@@ -131,9 +236,27 @@ export const delEvent = async (req,res) => {
     
     if(event!=null)
     {
+        const club = await clubModel.findOne({ eventids: { $elemMatch: { $eq: event._id } } })
+
+        if(club.presidentid != req.session.passport.user)
+        {
+            var err = new Error("You are not president of club.");
+            err.status = 400;
+            return err;
+        }
         try {
-            await eventModel.deleteOne(req.body);
-            return req.body;
+            if(event.image != undefined)
+            {
+                var gfs;
+                const conn = mongoose.connection;
+                gfs = new mongoose.mongo.GridFSBucket(conn.db, { bucketName: "Images" });
+
+                await gfs.delete(new mongoose.Types.ObjectId(event.image));
+            }
+
+            await clubModel.findByIdAndUpdate(club._id,{ $pull: { eventids: event._id } });
+            await eventModel.deleteOne({ _id: eventId });
+            return event;
         
         } catch (error) {
             return error;
@@ -142,7 +265,7 @@ export const delEvent = async (req,res) => {
     else
     {
         var err = new Error("The Event doesn't exsist.");
-        err.code(406);
+        err.status = 406;
         return err;
     }
 };

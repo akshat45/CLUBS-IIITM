@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>ClubsIIITM</title>
+
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital@1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fondamento&display=swap" rel="stylesheet">
+
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+
+    <link rel="stylesheet" href="/css/styles.css">
+   
+
+</head>
+
+<body id="body-top">
+
+
+
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" >Clubs<strong style="color: #9CC3D5;">IITI</strong></a>
+            <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                  <i class="fas fa-bars"></i>
+              </button> 
+        </div>
+    </nav>
+
+
+        <!-- <div class="container d-flex align-items-center flex-column"> -->
+            <!-- Masthead Avatar Image-->
+            <!-- <img class="masthead-avatar mb-5" src="https://i.imgur.com/eQrt2zc.png" alt=""> -->
+            <!-- Masthead Heading-->
+            <!-- <h1 class="masthead-heading mb-0 text-dark" style="font-family: 'Kaushan Script', cursive;">IIITM GWALIOR -->
+            <!-- </h1>
+            <p class="pre-wrap masthead-subheading font-weight-light mb-0"></p>
+        </div> -->
+        <p style="margin-left: 2.5em;padding: 0 7em 2em 0;border-width: 2px; "></p>
+        <div class="container mt-5 pt-5" >
+            <form method="POST" action="/student/<%=student._id %>" >
+                <div class="form-group">
+                    <label for="full_name" class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="full_name" name="full_name" value="<%=student.name%>" readonly>
+                </div>
+        
+                <div class="form-group">
+                    <label for="roll_no" class="form-label"> Roll No.</label>
+                    <input type="text" class="form-control" id="roll_no" name="roll_no" value="<%=student.rollNo%>" readonly>
+                </div>
+        
+                <div class="form-group">
+                    <label for="phoneno"class="form-label">Phone No.</label>
+                    <input type="number" class="form-control" id="phoneno" name="phoneno" value="<%=student.phoneno%>" minlength="10" maxlength="10" required>
+                    <small class="form-text text-muted">We will prank call you for sure.</small>
+                </div>
+        
+                <div class="form-group">
+                    <label for="mail_id"class="form-label">Email ID</label>
+                    <input type="email" class="form-control" id="mail_id" name="mail_id" value="<%=student.email%>" readonly>
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+        
+        
+                <div class="form-group">
+                    <label for="linkedin"class="form-label">LinkedIn ID</label>
+                    <input type="text" class="form-control" id="linkedin" name="linkedin" value="<%=student.linkedin%>">
+                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                </div>
+        
+                <!-- Add Bio -->
+                <div class="form-group">
+                    <label for="bio" class="form-label">Bio</label>
+                    <textarea type="text" class="form-control" rows="3" name="bio" id="bio" value="<%=student.bio%>"><%=student.bio%></textarea>
+                </div>
+        
+        
+        
+                <!-- Add options -->
+                <div class="form-group">
+                    <label for="branch" class="form-label">Branch</label>
+                    <input type="text" class="form-control" id="branch" name="branch" value="<%=student.branch%>" readonly>
+                    
+                </div>
+        
+        
+                <div class="form-group">
+                    <label for="year" id="year" class="form-label">Batch </label>
+                    <input type="text" class="form-control" id="batch" name="batch" value="<%=student.batch%>" readonly>
+        
+        
+                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                </div>
+        
+                <button type="submit" class="btn btn-primary">Submit</button>
+        
+            </form>
+            <p style="margin-left: 2.5em;padding: 0 7em 2em 0;border-width: 2px;"></p>
+            <form action="/remove" method="PUT">
+                <div class="form-group">
+                    <div class="form-text text-muted">Delete all information from <strong>clubsIIITI</strong>.</div>
+                    <button type="submit" class="btn btn-outline-danger">UN-REGISTER</button>
+        
+        
+                </div>
+            </form>
+        
+        
+        </div>
+    <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes)-->
+    <div class="scroll-to-top position-fixed"><a class="js-scroll-trigger d-block text-center text-white rounded"
+            href="#body-top"><i class="fa fa-chevron-up"></i></a></div>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+
+    <!-- Core theme JS-->
+    <script src="/js/scripts.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/bootstrap-notify.min.js"></script>
+    <script src="/js/notify.js"></script>
+    <script src="/js/studentForm.js"></script>
+
+</body>
+
+</html>

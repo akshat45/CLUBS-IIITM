@@ -14,6 +14,10 @@ const approvalSchema = mongoose.Schema({
     approved: {
         type: Boolean,
         default: false
+    },
+    declined: {
+        type: Boolean,
+        default: false
     }
 });
 

@@ -19,12 +19,15 @@ technologies such as NodeJS, ExpressJS and MongoDB.
 3. Fill the <code>.env</code> with the following content : 
 (Note: RETRACTED means we should not share this variable, and thus should not be present in public repos)
 ```
-CONNECTION_URL = RETRACTED (Put your mysql database url here)
+CONNECTION_URL = RETRACTED (Put your mongodb atlas url here)
 CLIENT_ID = RETRACTED (Put Your client id given by google developer console)
 CLIENT_SECRET =  RETRACTED (Put Your client secret given by google developer console)
-usern = RETRACTED (Enter the email using which all clubs related emails will be sent)
-passw =  RETRACTED (Password for the above entered email-id)
+EMAIL = RETRACTED (Enter the email using which all clubs related emails will be sent)
 secret =  RETRACTED (Any secret key of your choice)
+CLIENT_ID2 = RETRACTED 
+CLIENT_SECRET2 = RETRACTED
+REFRESH_TOKEN2 = RETRACTED
+CALLBACK_URL = RETRACTED
 ```
 4. After setting the <code>.env</code> file, run the command <code>npm i</code> so that npm automatically installs all the node packages and their dependencies which are required for the project
 5. To start the server run the command <code>npm start</code>
@@ -39,7 +42,7 @@ We have hosted the website on heroku : <a href="https://clubs-iiitm.herokuapp.co
 		<li>HTML</li>
 		<li>CSS</li>
 		<li>JS</li>
-    <li>Bootstrap</li>
+                <li>Bootstrap</li>
 </ul>
 
 <b>BACKEND</b>
@@ -47,7 +50,7 @@ We have hosted the website on heroku : <a href="https://clubs-iiitm.herokuapp.co
 <ul>
 		<li>NodeJS</li>
 		<li>ExpressJS</li>
-    <li>MongoDB</li>
+    		<li>MongoDB</li>
 </ul>
 
 ## Team Members

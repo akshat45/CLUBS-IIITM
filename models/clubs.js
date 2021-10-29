@@ -27,10 +27,7 @@ const clubSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    imageURL: {
-        type: String,
-        required: true
-    }
+    image: String
 });
 
 const clubModel = mongoose.model("clubModel", clubSchema);

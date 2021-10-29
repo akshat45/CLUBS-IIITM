@@ -86,8 +86,7 @@
 
     <!-- Masthead-->
     <header class="masthead bg-light text-white text-center" id="page-top">
-
-
+        <% if(message.length == 0 && !isLoggedIn) {%>
         <div class="container fixed-top">
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                 Please signin into CLUBSIIITM
@@ -96,6 +95,20 @@
                 </button>
             </div>
         </div>
+        <%} else if(message.length != 0) {%>
+        <div class="container fixed-top">
+            <% if(status == 200) {%>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <%} else {%>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <%}%>
+                <%= message%>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        <%}%>
 
 
 
@@ -123,7 +136,7 @@
                 <div class="col">
                     <div class="row h4">
                         <% for(let event of recentevents) { %>
-                            <div class="col d-md-block">
+                            <div class="col mt-4 mt-md-2 d-md-block">
                                 <a href="/event/<%=event._id%>">
                                     <%=event.name%>
                                 </a>
@@ -142,7 +155,7 @@
     <section class="page-section portfolio" id="cultural">
         <div class="container">
             <!-- Portfolio Section Heading-->
-            <h2 class="page-section-heading text-center text-uppercase text-body mb-0"
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"
                 style="font-family: 'Kaushan Script', cursive;">Cultural Clubs</h2>
             <!-- Icon Divider-->
             <div class="divider-custom">
@@ -156,8 +169,8 @@
                     <div class="col-md-6 col-lg-4 mb-5">
                         <a href="/club/<%=cultural._id%>">
                             <div class="portfolio-item mx-auto">
-                                <img class="img-fluid" src="https://i.imgur.com/U1cZZge.jpg" alt="">
-                                <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">
+                                <img class="img-fluid" style="width:25em" src="/image/<%=cultural.image%>" alt="not found">
+                                <h2 class="text-center mt-2" style="font-family: 'Ubuntu', sans-serif;">
                                     <%=cultural.name%>
                                 </h2>
                             </div>
@@ -175,7 +188,7 @@
 
         <div class="container">
             <!-- Portfolio Section Heading-->
-            <h2 class="page-section-heading text-center text-uppercase text-body mb-0"
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"
                 style="font-family: 'Kaushan Script', cursive;">Technical Clubs</h2>
             <!-- Icon Divider-->
             <div class="divider-custom-line"></div>
@@ -190,8 +203,8 @@
                     <div class="col-md-6 col-lg-4 mb-5">
                         <a href="/club/<%=technical._id%>">
                             <div class="portfolio-item mx-auto">
-                                <img class="img-fluid" src="https://i.imgur.com/U1cZZge.jpg" alt="">
-                                <h2 class="text-center" style="font-family: 'Ubuntu', sans-serif;">
+                                <img class="img-fluid" style="width:25em" src="/image/<%=technical.image%>" alt="not found">
+                                <h2 class="text-center mt-2" style="font-family: 'Ubuntu', sans-serif;">
                                     <%=technical.name%>
                                 </h2>
                             </div>
@@ -224,13 +237,13 @@
             <!-- About Section Content-->
             <div class="row">
                 <div class="col-lg-4 ml-auto">
-                    <p class="pre-wrap lead" style="font-family: 'Ubuntu', sans-serif;">This is a website which will
+                    <div class="wrap lead" style="font-family: 'Ubuntu', sans-serif;">This is a website which will
                         ease the recruitment process for the clubs and moreover it will help them manage their
                         activities and also it will help club heads to modify the club database of their respective
-                        clubs.</p>
+                        clubs.</div>
                 </div>
-                <div class="col-lg-4 mr-auto">
-                    <p class="pre-wrap lead" style="font-family: 'Ubuntu', sans-serif;">This website will also help
+                <div class="col-lg-4 mr-auto mt-5 mt-lg-0">
+                    <p class="wrap lead" style="font-family: 'Ubuntu', sans-serif;">This website will also help
                         outsiders to know about clubs of IIITMG so that they can decide which club is better for them
                         according to their interests so that they can apply for it. </p>
                 </div>
@@ -242,7 +255,7 @@
         <div class="container">
             <!-- Contact Section Heading-->
             <div class="text-center">
-                <h2 class="page-section-heading text-body d-inline-block mb-0"
+                <h2 class="page-section-heading d-inline-block text-secondary mb-0"
                     style="font-family: 'Kaushan Script', cursive;">CONTACT</h2>
             </div>
             <!-- Icon Divider-->

@@ -246,21 +246,21 @@ router.post("/:approvalId/meet", async function(req, res, next){
         text: `Dear ${approval.studentid.name},\nThe president of ${approval.clubid.name} Club wants to interview you on ${body.date} at ${body.time}.\nThe meet link is ${meet}.`
     };
     
-    transporter.sendMail(mailOptions)
-    .then(()=>{
-        res.status(200)
-        req.flash("message", "The Meeting is Scheduled Successfully." );
-        req.flash("status", 200);
-        res.redirect(`/club/${approval.clubid._id}`);        
-    })
-    .catch((error) => {
+    transporter.sendMail(mailOptions, function (error, info) {
         error.message = "Unable to send mail right now.";
         error.status = 500;
         res.status(error.status)
         req.flash("message", error.message );
         req.flash("status", error.status);
         res.redirect(`/club/${approval.clubid._id}`);
+        return;
     });
+    
+    res.status(200)
+    req.flash("message", "The Meeting is Scheduled Successfully." );
+    req.flash("status", 200);
+
+    res.redirect(`/club/${approval.clubid._id}`);
     
 });
 

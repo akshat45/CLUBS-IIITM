@@ -1,8 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
 <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
     <title>
         <%=club.name%>
     </title>
-    <div id="page-top"></div>
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital@1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fondamento&display=swap" rel="stylesheet">
 
     <!-- Core theme CSS (includes Bootstrap) -->
     <link rel="stylesheet"
@@ -11,209 +29,358 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 
+<body id="body-top">
 
-<div class="collapse navbar-collapse" id="navbarResponsive">
+    <nav class="navbar navbar-expand-lg bg-dark text-uppercase fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="/home">Clubs<strong
+                    style="color: #9CC3D5;">IIITM</strong></a>
+            <button
+                class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded"
+                type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
 
-    <ul class="navbar-nav ml-auto">
-        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-                href="#Description" style="color:white;">Description</a>
-        </li>
-        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-                href="#achievements" style="color:white;">achievements</a>
-        </li>
-        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#events"
-                style="color:white;">events</a>
-        </li>
-        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-                href="#members" style="color:white;">MEMBERS</a>
-        </li>
-        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about"
-                style="color:white;">ABOUT</a>
-        </li>
-        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-                href="#contact" style="color:white;">CONTACT</a>
-        </li>
-        {% if verified %}
-        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-                href="/clubs/{{clubName}}/edit" style="color:white;">Edit</a>
-        </li>
-        {% endif %}
-    </ul>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
 
-</div>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                            href="#Description" style="color:white;">Description</a>
+                    </li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                            href="#achievements" style="color:white;">achievements</a>
+                    </li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                            href="#events" style="color:white;">events</a>
+                    </li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                            href="#members" style="color:white;">MEMBERS</a>
+                    </li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                            href="#about" style="color:white;">ABOUT</a>
+                    </li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                            href="#contact" style="color:white;">CONTACT</a>
+                    </li>
 
-
-<!-- Masthead-->
-<header class="masthead bg-primary text-white text-center">
-    <div class="container d-flex align-items-center flex-column">
-        <!-- Masthead Avatar Image-->
-
-        <img class="masthead-avatar mb-5" src="../images/rotaract.png" alt="not found" />
-        <!-- Masthead Heading-->
-
-        <h1 class="masthead-heading text-uppercase mb-0" style="font-family: 'Kaushan Script', cursive;">
-            <%=club.name%>
-        </h1>
-        <!-- Icon Divider-->
-        <div class="divider-custom divider-light">
-            <div class="divider-custom-line"></div>
-            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-            <div class="divider-custom-line"></div>
-        </div>
-        <% if(joinbutton) { %>
-            <a href="<%=club._id%>/approval" class="btn btn-success btn-lg"
-                style="font-family: 'Ubuntu', sans-serif;">JOIN</a>
-            <% } %>
-    </div>
-</header>
-
-<!-- Description Section-->
-<section class="page-section portfolio" id="Description">
-    <div class="container">
-        <!-- Portfolio Section Heading-->
-        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"
-            style="font-family: 'Kaushan Script', cursive;">Description</h2>
-        <!-- Icon Divider-->
-        <div class="divider-custom">
-            <div class="divider-custom-line"></div>
-            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-            <div class="divider-custom-line"></div>
-        </div>
-        <!-- Portfolio Grid Items-->
-        <div class="row">
-            <!-- Portfolio Item 1-->
-            <div class="col-md-12 col-lg-12 mb-5">
-                <div class="portfolio-item mx-auto" style="font-family: 'Ubuntu', sans-serif;">
-                    <figure class="text-center">
-                        <blockquote class="blockquote">
-                                <%= club.description %>
-                        </blockquote>
-                    </figure>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Achievements Section-->
-<section class="page-section portfolio" id="achievements">
-    <div class="container">
-        <!-- Portfolio Section Heading-->
-        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"
-            style="font-family: 'Kaushan Script', cursive;">Achievements</h2>
-        <!-- Icon Divider-->
-        <div class="divider-custom">
-            <div class="divider-custom-line"></div>
-            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-            <div class="divider-custom-line"></div>
-        </div>
-        <!-- Portfolio Grid Items-->
-        <div class="row">
-            <!-- Portfolio Item 1-->
-            <div class="col-md-12 col-lg-12 mb-5">
-                <div class="portfolio-item mx-auto" style="font-family: 'Ubuntu', sans-serif;">
-                    <ul class="list-group">
-                        <% const acheiv=club.achievements; for (key in acheiv) { %>
-                            <li class="list-group-item">
-                                <%= acheiv[key]%>
-                            </li><br>
-                            <% } %>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Event Section-->
-<section class="page-section portfolio" id="events">
-    <div class="container">
-        <!-- Event Section Heading-->
-        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"
-            style="font-family: 'Kaushan Script', cursive;">Events</h2>
-        <!-- Icon Divider-->
-        <div class="divider-custom">
-            <div class="divider-custom-line"></div>
-            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-            <div class="divider-custom-line"></div>
-        </div>
-        <!-- Event Grid Items-->
-        <div style="display: flex; flex-direction: row;">
-            <% const obj=club.eventids; for (key in obj) { %>
-                <div class="card" style="width: 18rem;margin: 5px;min-height: max-content;">
-                    <div class="card-body" style="min-height: max-content;">
-                        <img src="../images/rotaract.png" class="card-img-top" alt="not found"
-                            style="height:100px; width:150px">
-                        <h5 class="card-title">
-                            <%= obj[key].name %>
-                        </h5>
-                        <p class="card-text">
-                            <%= obj[key].description %>
-                        </p>
-                        <a class="btn btn-primary" href=<%=obj[key].link %>>Join event</a>
-                    </div>
-                </div>
-                <% } %>
-        </div>
-    </div>
-</section>
-<!-- members Section-->
-<section class="page-section portfolio" id="members">
-    <div class="container">
-        <!-- members Section Heading-->
-        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"
-            style="font-family: 'Kaushan Script', cursive;">MEMBERS</h2>
-        <!-- Icon Divider-->
-        <div class="divider-custom">
-            <div class="divider-custom-line"></div>
-            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-            <div class="divider-custom-line"></div>
-        </div>
-        <ul class="list-group">
-            <% const member=club.memberids; for (key in member) { %>
-                <li class="list-group-item row">
-                    <a href="/student/<%=member[key]._id%>/profile"
-                        style="color: darkblue; font-family: 'Ubuntu', sans-serif;" class="col">
-                        <%= member[key].name%>
-                    </a>
                     <% if(verifypresident) { %>
-                        <a class="btn btn-danger col-sm-2 offset-md-2 "
-                            href="<%=club._id%>/remove/<%=member[key]._id%>">Remove</a>
+                        <li class="nav-item mx-0 mx-lg-1"><a
+                                class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="<%=club._id%>/edit"
+                                style="color:white;">Edit</a>
+                        </li>
                         <% } %>
-                </li>
-                <% } %>
-        </ul>
-    </div>
-</section>
-<section class="page-section">
-        <% if(approvals.length!==0) { %>
-                <div class="container">
-                    <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"
-                    style="font-family: 'Kaushan Script', cursive;">New Approvals</h2>
-                    <div class="divider-custom">
-                        <div class="divider-custom-line"></div>
-                        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-                        <div class="divider-custom-line"></div>
-                    </div>
+                </ul>
 
-                
-                    <ul class="list-group">
-                        <% for(request in approvals){ %>
-                            <li class="list-group-item row">
-                                <a href="/student/<%= approvals[request].studentid._id %>/profile" class="col-xs-6 col-md-8"  style="color: darkblue; font-family: 'Ubuntu', sans-serif;">
-                                    <%= approvals[request].studentid.name %>
-                                </a>
-                                <div class="col-xs-6 col-md-4">
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Masthead-->
+    <header class="masthead bg-primary text-white text-center" id="page-top">
+        <% if(message.length> 0) {%>
+            <div class="container fixed-top">
+                <% if(status==200) {%>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <%} else {%>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <%}%>
+                                    <%= locals.message%>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                            </div>
+                    </div>
+                    <%}%>
+                        <div class="container d-flex align-items-center flex-column">
+                            <!-- Masthead Avatar Image-->
+
+                            <img class="masthead-avatar mb-5" src="/image/<%=club.image%>" alt="not found" />
+                            <!-- Masthead Heading-->
+
+                            <h1 class="masthead-heading text-uppercase mb-0"
+                                style="font-family: 'Kaushan Script', cursive;">
+                                <%=club.name%>
+                            </h1>
+                            <!-- Icon Divider-->
+                            <div class="divider-custom divider-light">
+                                <div class="divider-custom-line"></div>
+                                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                <div class="divider-custom-line"></div>
+                            </div>
+                            <% if(joinbutton) { %>
+                                <form action="<%=club._id%>/approval" method="POST">
+                                    <button type="submit" class="btn btn-success">JOIN</button>
+                                </form>
+                                <% }%>
+                        </div>
+    </header>
+
+    <!-- Description Section-->
+    <section class="page-section portfolio" id="Description">
+        <div class="container">
+            <!-- Portfolio Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"
+                style="font-family: 'Kaushan Script', cursive;">Description</h2>
+            <!-- Icon Divider-->
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- Portfolio Grid Items-->
+            <div class="row">
+                <!-- Portfolio Item 1-->
+                <div class="col-md-12 col-lg-12 mb-5">
+                    <div class="portfolio-item mx-auto" style="font-family: 'Ubuntu', sans-serif;">
+                        <figure class="text-center">
+                            <blockquote class="blockquote">
+                                <%= club.description %>
+                            </blockquote>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Achievements Section-->
+    <section class="page-section portfolio" id="achievements">
+        <div class="container">
+            <!-- Portfolio Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"
+                style="font-family: 'Kaushan Script', cursive;">Achievements</h2>
+            <!-- Icon Divider-->
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- Portfolio Grid Items-->
+            <div class="row">
+                <!-- Portfolio Item 1-->
+                <div class="col-md-12 col-lg-12 mb-5">
+                    <div class="portfolio-item mx-auto" style="font-family: 'Ubuntu', sans-serif;">
+                        <ul class="list-group">
+                            <% const acheiv=club.achievements; for (key in acheiv) { %>
+                                <li class="list-group-item">
+                                    <%= acheiv[key]%>
+                                </li><br>
+                                <% } %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Event Section-->
+    <section class="page-section portfolio" id="events">
+        <div class="container">
+            <!-- Event Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"
+                style="font-family: 'Kaushan Script', cursive;">Events</h2>
+            <!-- Icon Divider-->
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- Event Grid Items-->
+            <div class="row">
+                <% const obj=club.eventids; for (key in obj) { %>
+                    <div class="col-md-6 col-lg-4 mb-5">
+                        <a href="/event/<%=obj[key]._id%>">
+                            <div class="portfolio-item mx-auto">
+                                <img class="img-fluid" src="/image/<%=obj[key].image%>" alt="not found">
+                                <h2 class="text-center mt-2" style="font-family: 'Ubuntu', sans-serif;">
+                                    <%=obj[key].name%>
+                                </h2>
+                            </div>
+                        </a>
+                    </div>
+                    <% } %>
+            </div>
+            <% if(verifypresident) { %>
+                <a href="<%=club._id%>/event" class="mt-5 col offset-md-4 col-md-4 btn btn-secondary btn-lg"
+                    style="font-family: 'Ubuntu', sans-serif;">Add Event</a>
+                <% } %>
+        </div>
+    </section>
+    <!-- members Section-->
+    <section class="page-section portfolio" id="members">
+        <div class="container">
+            <!-- members Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"
+                style="font-family: 'Kaushan Script', cursive;">MEMBERS</h2>
+            <!-- Icon Divider-->
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <ul class="list-group">
+                <% const member=club.memberids; for (key in member) { %>
+                    <li class="list-group-item row">
+                        <a href="/student/<%=member[key]._id%>/profile"
+                            style="color: darkblue; font-family: 'Ubuntu', sans-serif;" class="col">
+                            <%= member[key].name%>
+                        </a>
+                        <% if(verifypresident) { %>
+                            <form action="<%=club._id%>/remove/<%=member[key]._id%>" method="POST">
+                            <button class="btn btn-danger">Remove</button>
+                        </form>
+                            <% } %>
+                    </li>
+                    <% } %>
+            </ul>
+        </div>
+    </section>
+    <section class="page-section">
+        <% if(approvals.length!==0) { %>
+            <div class="container">
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"
+                    style="font-family: 'Kaushan Script', cursive;">New Approvals</h2>
+                <div class="divider-custom">
+                    <div class="divider-custom-line"></div>
+                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                    <div class="divider-custom-line"></div>
+                </div>
+
+
+                <ul class="list-group">
+                    <% for(request in approvals){ %>
+                        <li class="list-group-item row">
+                            <a href="/student/<%= approvals[request].studentid._id %>/profile" class="col-xs-6 col-md-8"
+                                style="color: darkblue; font-family: 'Ubuntu', sans-serif;">
+                                <%= approvals[request].studentid.name %>
+                            </a>
+                            <div class="col-xs-6 col-md-4">
                                 <a href="/approval/<%= approvals[request]._id %>/approve"
                                     class="btn btn-success btn-sm">Approve</a>
-                                <a href="/approval/<%= approvals[request]._id %>/meet" class="btn btn-warning btn-sm">Schedule
+                                <a href="/approval/<%= approvals[request]._id %>/meet"
+                                    class="btn btn-warning btn-sm">Schedule
                                     Meet</a>
-                                <a href="/approval/<%= approvals[request]._id %>/decline" class="btn btn-danger btn-sm">Reject</a>
-                                </div>
-                            </li>
-                            <% } %>
-                    </ul>
-                </div>
+                                <a href="/approval/<%= approvals[request]._id %>/decline"
+                                    class="btn btn-danger btn-sm">Reject</a>
+                            </div>
+                        </li>
+                        <% } %>
+                </ul>
+            </div>
             <% } %>
-</section>
+    </section>
 
-</div>
-</section>
+    </div>
+    </section>
+    <!-- About Section-->
+    <section class="page-section bg-dark text-white mb-0" id="about">
+        <div class="container">
+            <!-- About Section Heading-->
+            <div class="text-center">
+                <h2 class="page-section-heading d-inline-block text-white"
+                    style="font-family: 'Kaushan Script', cursive;">ABOUT</h2>
+            </div>
+            <!-- Icon Divider-->
+            <div class="divider-custom divider-light">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- About Section Content-->
+            <div class="row">
+                <div class="col-lg-4 ml-auto">
+                    <div class="wrap lead" style="font-family: 'Ubuntu', sans-serif;">This is a website which will
+                        ease the recruitment process for the clubs and moreover it will help them manage their
+                        activities and also it will help club heads to modify the club database of their respective
+                        clubs.</div>
+                </div>
+                <div class="col-lg-4 mr-auto mt-5 mt-lg-0">
+                    <p class="wrap lead" style="font-family: 'Ubuntu', sans-serif;">This website will also help
+                        outsiders to know about clubs of IIITMG so that they can decide which club is better for them
+                        according to their interests so that they can apply for it. </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- contact Section-->
+    <section class="page-section" id="contact">
+        <div class="container">
+            <!-- Contact Section Heading-->
+            <div class="text-center">
+                <h2 class="page-section-heading text-secondary d-inline-block mb-0"
+                    style="font-family: 'Kaushan Script', cursive;">CONTACT</h2>
+            </div>
+            <!-- Icon Divider-->
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- Contact Section Content-->
+            <div class="row justify-content-center">
+                <div class="col-lg-4">
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="icon-contact mb-3"><i class="fas fa-mobile-alt"></i></div>
+                        <div class="text-muted">Contact Number</div>
+                        <div class="lead font-weight-bold">0123456789</div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="icon-contact mb-3"><i class="fas fa-globe"></i></div>
+                        <div class="text-muted">Website</div><a class="lead font-weight-bold" href="">Visit Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer-->
+    <footer class="footer text-center bg-dark">
+        <div class="container">
+            <div class="row">
+                <!-- Footer Location-->
+                <div class="col-lg-4 mb-5 mb-lg-0">
+                    <h4 class="mb-4">LOCATION</h4>
+                    <p class="pre-wrap lead mb-0">Morena Link Road, Gwalior, MP 474015
+                    </p>
+                </div>
+                <!-- Footer Social Icons-->
+                <div class="col-lg-4 mb-5 mb-lg-0">
+                    <h4 class="mb-4">IIITMG WEBSITE</h4>
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://twitter.com/iiitm?lang=en"><i
+                            class="fab fa-fw fa-twitter"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-1" href="http://www.iiitm.ac.in/index.php/en/"><i
+                            class="fab fa-fw fa-google"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://www.facebook.com/iiitm/"><i
+                            class="fab fa-fw fa-facebook-f"></i></a>
+                </div>
+                <!-- Footer About Text-->
+                <div class="col-lg-4">
+                    <h4 class="mb-4">ABOUT IIITMG</h4>
+                    <p class="pre-wrap lead mb-0">IIITMG, located in Madhya Pradesh, is an institute of national
+                        importance established by the Government of India in 1997.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Copyright Section-->
+    <section class="copyright pb-4 text-center text-white bg-dark">
+        <div class="container"><small class="pre-wrap">Copyright © clubsiiitmg</small></div>
+    </section>
+    <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes)-->
+    <div class="scroll-to-top position-fixed"><a class="js-scroll-trigger d-block text-center text-white rounded"
+            href="#body-top"><i class="fa fa-chevron-up"></i></a></div>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+
+    <!-- Core theme JS-->
+    <script src="/js/scripts.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/bootstrap-notify.min.js"></script>
+    <script src="/js/notify.js"></script>
+</body>

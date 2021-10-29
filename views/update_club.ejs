@@ -1,6 +1,6 @@
 <head>
     <title>
-        <%=club.name%>
+        Edit <%=club.name%>
     </title>
     <div id="page-top"></div>
 
@@ -10,63 +10,86 @@
 
     <link rel="stylesheet" href="/css/styles.css">
 </head>
+
 <body>
-    <!-- <%= club %> -->
-<br><br><br>
-    <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"
-            style="font-family: 'Kaushan Script', cursive;">Edit <%= club.name%></h2>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg bg-dark text-uppercase fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="/home">Clubs<strong
+                    style="color: #9CC3D5;">IIITM</strong></a>
+        </div>
+    </nav>
+
+    <div class="container mt-5 pt-5">
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mt-5"
+            style="font-family: 'Kaushan Script', cursive;">Edit <%= club.name%>
+        </h2>
         <!-- Icon Divider-->
         <div class="divider-custom">
             <div class="divider-custom-line"></div>
             <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
             <div class="divider-custom-line"></div>
         </div>
-    
-    <div class="container mt-5 pt-5">
-        <form action="/club/<%=club._id%>" id="form" method="POST" >
+        <form action="/club/<%=club._id%>" id="form" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="info">New Description</label>
-                <textarea rows="2" type="text" class="form-control" id="info" name="description"><%=club.description%></textarea>
+                <textarea rows="2" type="text" class="form-control" id="info"
+                    name="description"><%=club.description%></textarea>
             </div>
-            
+
             <label for="achievements">Edit achievements</label><br>
-            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16" id='add' onclick=add()>
-                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-              </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-file-minus float-right" viewBox="0 0 16 16" id='remove' onclick=remove()>
-                <path d="M5.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z"/>
-                <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
-              </svg>
-              <br><br>
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-plus-square"
+                viewBox="0 0 16 16" id='add' onclick=add()>
+                <path
+                    d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                <path
+                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
+                class="bi bi-file-minus float-right" viewBox="0 0 16 16" id='remove' onclick=remove()>
+                <path d="M5.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z" />
+                <path
+                    d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+            </svg>
+            <br><br>
             <div class="form-group" id='main'>
-                    <!-- <textarea rows="2" type="text" class="form-control" id="achievements" name="achievements"></textarea><br>   -->
                 <% for(key in club.achievements){ %>
-                    <textarea rows="2" type="text" class="form-control" id="achievements" name="achievements"><%=club.achievements[key]%></textarea><br id="br">
-                <%}%>
+                    <textarea rows="2" type="text" class="form-control" id="achievements"
+                        name="achievements"><%=club.achievements[key]%></textarea><br id="br">
+                    <%}%>
             </div>
-        </div>
-        <div class="container mb-5">
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-        
+            <p><input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)"
+                    style="display: none;"></p>
+            <p><label for="file" style="cursor: pointer;border: 2px solid red; padding: 5px; border-radius: 5px;">Upload
+                    Image</label></p>
+            <p><img id="output" width="600" src="/image/<%=club.image%>" /></p>
+    </div>
+    <div class="container mb-5">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+
     </form>
-    <!-- <button id='add' onclick=add()>+</button><button id='add' onclick=remove()>-</button> -->
-    <!-- <i class="bi bi-plus-square" id='add' onclick=add()></i> -->
-</div>
-<script>
-    add = ()=>{
-        // let text=document.getElementById('achievements');
-        let form = document.getElementById('main')
-        main.innerHTML =`<textarea rows="2" type="text" class="form-control" id="achievements" name="achievements"></textarea><br id="br">` + main.innerHTML;
-    }
-    function remove(){
-        var myobj = document.getElementById("achievements");
-        myobj.remove();
-        var brobj = document.getElementById("br");
-        brobj.remove();
-    }
-</script>
+    </div>
+
+    <script>
+        var loadFile = function (event) {
+            var image = document.getElementById('output');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
+    <script>
+        add = () => {
+            // let text=document.getElementById('achievements');
+            let form = document.getElementById('main')
+            main.innerHTML = `<textarea rows="2" type="text" class="form-control" id="achievements" name="achievements"></textarea><br id="br">` + main.innerHTML;
+        }
+        function remove() {
+            var myobj = document.getElementById("achievements");
+            myobj.remove();
+            var brobj = document.getElementById("br");
+            brobj.remove();
+        }
+    </script>
 </body>
 
 </html>

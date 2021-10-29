@@ -41,14 +41,13 @@ router.get('/', async function(req,res,next) {
             break;
     
         default:
-            res.setHeader("ContentType", "application/json");
             if(isLoggedIn)
-            res.status(200).render('home', {techClubs, cultClubs, recentevents,isLoggedIn,studentName,studentId});
+            res.status(200).render('home', {techClubs, cultClubs, recentevents, isLoggedIn, studentName, studentId,  message: req.flash("message"), status: req.flash("status")});
             else
-            res.status(200).render('home', {techClubs, cultClubs, recentevents,isLoggedIn});
-            // res.status(200).json({ techClubs: techClubs, cultClubs: cultClubs, recentevents: recentevents});
+            res.status(200).render('home', {techClubs, cultClubs, recentevents, isLoggedIn, message: req.flash("message"), status: req.flash("status") });
             break;
     }
+    
 });
 
 export default router;

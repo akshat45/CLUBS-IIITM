@@ -6,48 +6,16 @@ import imageUpload from "../middleware/imageUpload.js";
 import { getClub, putClub, removeMember, getJoinButton, getVerifyPresident } from "../controllers/clubs.js";
 import { postEvent } from "../controllers/events.js";
 import { getClubApprovals, postApproval } from "../controllers/approvals.js";
-import { google } from "googleapis";
-const OAuth2 = google.auth.OAuth2;
 
 const router = express.Router();
 
-
-const createTransporter = async () => {
-    const oauth2Client = new OAuth2(
-      process.env.CLIENT_ID2,
-      process.env.CLIENT_SECRET2,
-      "https://developers.google.com/oauthplayground"
-    );
-  
-    oauth2Client.setCredentials({
-      refresh_token: process.env.REFRESH_TOKEN2
-    });
-  
-    const accessToken = await new Promise((resolve, reject) => {
-      oauth2Client.getAccessToken((err, token) => {
-        if (err) {
-            console.log('Failed to create access token :(');
-          reject("Failed to create access token :(");
-        }
-        resolve(token);
-      });
-    });
-  
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        type: "OAuth2",
-        user: process.env.EMAIL,
-        accessToken,
-        clientId: process.env.CLIENT_ID2,
-        clientSecret: process.env.CLIENT_SECRET2,
-        refreshToken: process.env.REFRESH_TOKEN2
-      }
-    });
-
-    return transporter;
-};
-
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.usern,
+        pass: process.env.passw
+    }
+});
 
 router.get("/:clubId", async function (req,res, next) {
 
@@ -273,24 +241,19 @@ router.post("/:clubId/remove/:studentId", async function(req,res,next) {
         req.flash("status", 200);
 
         var mailOptions = {
-            from: process.env.EMAIL,
+            from: process.env.usern,
             to: member.student.email,
             subject: `Fired from ${member.club.name}`,
             text: `Thank you for being with us. Sorry ${member.student.name}, you got fired from ${member.club.name} Club.`
         };
 
-        let removeStudent = async (mailOptions) =>{
-            let transporter = await createTransporter();
-            transporter.sendMail(mailOptions, function (error, info) {
+        transporter.sendMail(mailOptions, function (error, info) {
             error.message = "Unable to send mail right now.";
-            console.log(error.message);
             error.status = 500;
             res.status(error.status)
             req.flash("message", error.message );
             req.flash("status", error.status);
         });
-        }
-        await removeStudent(mailOptions);
     }
 
     res.redirect(`/club/${req.params.clubId}`);

@@ -14,10 +14,7 @@ const eventSchema = mongoose.Schema({
         unique: true
     },
     description: String,
-    image: {
-        url: String,
-        filename: String
-    }
+    image: String
 });
 
 const eventModel = mongoose.model("eventModel", eventSchema);

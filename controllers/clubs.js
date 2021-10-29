@@ -28,7 +28,7 @@ export const getClub = async (req, res) => {
             const club = await clubModel.findOne({ _id: clubId })
                                         .populate("memberids", "name")
                                         .populate("presidentid", "name")
-                                        .populate("eventids", "name");
+                                        .populate("eventids", ["name", "image"]);
             return club;
 
         } catch (error) {
@@ -47,7 +47,7 @@ export const getClub = async (req, res) => {
 export const getTechClubs = async (req, res) => {
 
     try {
-        const clubs = await clubModel.find({ typeofclub: "Technical" }, "name");
+        const clubs = await clubModel.find({ typeofclub: "Technical" }, ["name", "image"]);
         return clubs;
 
     } catch (error) {
@@ -60,7 +60,7 @@ export const getTechClubs = async (req, res) => {
 export const getCultClubs = async (req, res) => {
 
     try {
-        const clubs = await clubModel.find({ typeofclub: "Cultural" }, "name");
+        const clubs = await clubModel.find({ typeofclub: "Cultural" }, ["name", "image"]);
         return clubs;
 
     } catch (error) {
@@ -83,12 +83,12 @@ export const putClub = async (req, res) => {
 
     if(!mongoose.Types.ObjectId.isValid(clubId))
     {
-        var err = new Error("The Club doesn't exsist.");
+        var err = new Error("The Club doesn't exist.");
         err.status = 406;
         return err;
     }
 
-    const body = req.body;
+    var body = req.body;
     var club;
 
     try {
@@ -110,12 +110,26 @@ export const putClub = async (req, res) => {
         }
 
         try {
+            if(!(req.file === undefined))
+            {
+                if(!(club.image === undefined))
+                {
+                    var gfs;
+                    const conn = mongoose.connection;
+                    gfs = new mongoose.mongo.GridFSBucket(conn.db, { bucketName: "Images" });
+
+                    await gfs.delete(new mongoose.Types.ObjectId(club.image));
+                }
+
+                body.image = req.file.id;
+            }
+
             await clubModel.updateOne({ _id: clubId }, body);
             return (await clubModel.findOne(body));
 
         } catch (error) {
             error.status = 400;
-            error.message = "The club name already exsist.";
+            error.message = "The club name already exist.";
             return error;
         }
     }
@@ -166,6 +180,14 @@ export const delClub = async (req, res) => {
         }
 
         try {
+            if(club.image != undefined)
+            {
+                var gfs;
+                const conn = mongoose.connection;
+                gfs = new mongoose.mongo.GridFSBucket(conn.db, { bucketName: "Images" });
+
+                await gfs.delete(new mongoose.Types.ObjectId(club.image));
+            }
             await clubModel.deleteOne({ _id: clubId });
             return body;
 
@@ -251,7 +273,7 @@ export const removeMember = async (req,res) => {
 
         try {
             await clubModel.updateOne({ _id: clubId }, { $pull: { memberids: studentId }});
-            return;
+            return  { student, club };
 
         } catch (error) {
             error.message = "Unable to connect with database.";

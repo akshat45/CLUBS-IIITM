@@ -5,6 +5,7 @@ import session from "express-session";
 import passport from "passport";
 import Googlepassport from "passport-google-oauth20";
 import studentModel from "./models/students.js";
+import connectflash from "connect-flash";
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -14,7 +15,6 @@ const __dirname = path.dirname(__filename);
 
 import dotenv from "dotenv";
 dotenv.config();
-// import { username, password } from "./credentials.js";
 
 
 import homeRoute from "./routes/home.js";
@@ -43,6 +43,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(connectflash());
 app.use("/home", homeRoute);
 app.use("/club", clubRoute);
 app.use("/event", eventRoute);

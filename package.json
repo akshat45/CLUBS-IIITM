@@ -7,7 +7,7 @@
   "scripts": {
     "start": "nodemon App.js"
   },
-  "author": "Akshat, Ninad, Jay, Chaitanya",
+  "author": "Akshat, Jay, Chaitanya",
   "license": "ISC",
   "dependencies": {
     "connect-flash": "^0.1.1",

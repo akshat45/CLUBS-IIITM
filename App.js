@@ -49,6 +49,7 @@ app.use("/club", clubRoute);
 app.use("/event", eventRoute);
 app.use("/approval",approvalRoute);
 app.use("/student", studentRoute);
+app.use("/", homeRoute);
 
 const PORT = process.env.PORT || 5000;
 
@@ -62,6 +63,10 @@ const conn = mongoose.connection;
 
 conn.once("open", () => {
     gfs = new mongoose.mongo.GridFSBucket(conn.db, { bucketName: "Images" });
+});
+
+app.get("/", (req,res) => {
+  res.redirect("/home");
 });
 
 app.get("/image/:imageId", async (req,res) => {
@@ -89,7 +94,7 @@ passport.deserializeUser(function (id, done) {
 passport.use(new GoogleStrategy({
   clientID: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
-  callbackURL: "http://localhost:5000/auth/google/club",
+  callbackURL: process.env.CALLBACK_URL,
   userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
 },
   function (accessToken, refreshToken, profile, cb) {
@@ -127,11 +132,14 @@ app.get("/auth/google",
 app.get("/auth/google/club",
   passport.authenticate('google', { failureRedirect: '/home' }),
   function (req, res) {
+    req.flash("status", 200);
+    req.flash("message", "You have logged in successfully.")
     res.redirect('/home');
   });
 
   app.get('/logout', function (req, res){
-    req.session.destroy(function (err) {
-      res.redirect('/home'); //Inside a callback… bulletproof!
-    });
+    req.flash("status", 200);
+    req.flash("message", "You have logged out successfully.")
+    req.logout();
+    res.redirect('/home');
   });

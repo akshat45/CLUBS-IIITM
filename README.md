@@ -19,7 +19,7 @@ technologies such as NodeJS, ExpressJS and MongoDB.
 3. Fill the <code>.env</code> with the following content : 
 (Note: RETRACTED means we should not share this variable, and thus should not be present in public repos)
 ```
-CONNECTION_URL = RETRACTED (Put your mysql database url here)
+CONNECTION_URL = RETRACTED (Put your mongodb atlas database url here)
 CLIENT_ID = RETRACTED (Put Your client id given by google developer console)
 CLIENT_SECRET =  RETRACTED (Put Your client secret given by google developer console)
 usern = RETRACTED (Enter the email using which all clubs related emails will be sent)

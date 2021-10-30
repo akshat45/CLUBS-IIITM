@@ -7,7 +7,6 @@
   "scripts": {
     "start": "nodemon App.js"
   },
-  
   "author": "Akshat, Jay, Chaitanya",
   "license": "ISC",
   "dependencies": {

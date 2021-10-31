@@ -137,9 +137,8 @@ app.get("/auth/google/club",
     res.redirect('/home');
   });
 
+  
   app.get('/logout', function (req, res){
-    req.flash("status", 200);
-    req.flash("message", "You have logged out successfully.")
-    req.logout();
-    res.redirect('/home');
-  });
+    req.session.destroy(function (err) {
+      res.redirect('/home');
+    })});

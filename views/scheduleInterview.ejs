@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="/css/datetime.css" />
+	<!-- Favicon-->
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+	<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital@1&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Fondamento&display=swap" rel="stylesheet">
+
+	<title>Schedule Interview</title>
+	<style>
+		body {
+			background-image: url("https://images.pexels.com/photos/5534634/pexels-photo-5534634.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+		}
+	</style>
+	<link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg bg-dark text-uppercase fixed-top" id="mainNav">
+		<div class="container">
+			<a class="navbar-brand js-scroll-trigger" href="/home">Clubs<strong
+					style="color: #9CC3D5;">IIITM</strong></a>
+		</div>
+	</nav>
+	<br></br>
+	<br></br>
+	<div class="container mt-5 mb-5">
+		<h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"
+			style="font-family: 'Kaushan Script', cursive;">Schedule interview of <%= approval.studentid.name %>
+		</h2>
+		<div class="divider-custom">
+			<div class="divider-custom-line"></div>
+			<div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+			<div class="divider-custom-line"></div>
+		</div>
+	</div>
+
+	<div class="container">
+		<form action="/approval/<%=approval._id %>/meet" method="POST">
+			<div class="form-group">
+				<label for="time">TIME</label>
+				<input type="text" class="form-control" id="alarm" name="time" value="" placeholder="" required />
+			</div>
+			<div class="form-group">
+				<label for="date">DATE</label>
+				<input type="text" class="form-control" id="date-input" name="date" value=""
+					placeholder="Date of Interview" required />
+			</div>
+			<button type="submit" class="btn btn-outline-danger">
+				Schedule
+			</button>
+		</form>
+	</div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+	crossorigin="anonymous"></script>
+<script src="/js/datedropper.pro.min.js"></script>
+<script src="/js/timedropper.min.js"></script>
+
+<!-- datedropper init -->
+<script>
+	$("#date-input").dateDropper();
+</script>
+<script src="/js/datetime.js"></script>
+
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Add Event</title>
+
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital@1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fondamento&display=swap" rel="stylesheet">
+
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+
+    <link rel="stylesheet" href="/css/styles.css">
+
+
+</head>
+
+<body id="body-top">
+
+
+
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg bg-dark text-uppercase fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="/home">Clubs<strong
+                    style="color: #9CC3D5;">IIITM</strong></a>
+        </div>
+    </nav>
+    <p style="margin-left: 2.5em;padding: 0 7em 2em 0;border-width: 2px; "></p>
+    <div class="container mt-5 pt-5">
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"
+            style="font-family: 'Kaushan Script', cursive;">Add Event
+        </h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+
+        <form method="POST" action="event" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="name" class="form-label">Name of Event</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="date" class="form-label">Date of Event</label>
+                <input type="date" class="form-control" id="date" name="date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="time" class="form-label">Time of Event</label>
+                <input type="time" class="form-control" id="time" name="time" required>
+            </div>
+
+            <div class="form-group">
+                <label for="meetlink" class="form-label">Meetlink</label>
+                <input type="text" class="form-control" id="meetlink" name="meetlink" required>
+            </div>
+
+
+            <div class="form-group">
+                <label for="description" class="form-label">Description of Event</label>
+                <input type="text" class="form-control" id="description" name="description" required>
+            </div>
+
+            <div class="form-group">
+                <label for="image" class="btn btn-danger btn-md">
+                    Choose Banner of Event
+                </label>
+                <input type="file" name="image" id="image" onchange="loadFile(event)" style="display: none">
+            </div>
+            <div class="form-group">
+                <img id="output" width="600px">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+        </form>
+
+    </div>
+    <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes)-->
+    <div class="scroll-to-top position-fixed"><a class="js-scroll-trigger d-block text-center text-white rounded"
+            href="#body-top"><i class="fa fa-chevron-up"></i></a></div>
+    <!-- Bootstrap core JS-->
+    <script>
+        var loadFile = function (event) {
+            var image = document.getElementById('output');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+
+    <!-- Core theme JS-->
+    <script src="/js/scripts.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/bootstrap-notify.min.js"></script>
+    <script src="/js/notify.js"></script>
+    <script src="/js/studentForm.js"></script>
+
+</body>
+
+</html>

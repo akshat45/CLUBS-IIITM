@@ -16,7 +16,7 @@ const __dirname = path.dirname(__filename);
 import dotenv from "dotenv";
 dotenv.config();
 
-
+// Routes
 import homeRoute from "./routes/home.js";
 import clubRoute from "./routes/club.js";
 import eventRoute from "./routes/event.js";
@@ -43,16 +43,18 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Alert in web pages and different Routes
 app.use(connectflash());
 app.use("/home", homeRoute);
 app.use("/club", clubRoute);
 app.use("/event", eventRoute);
-app.use("/approval",approvalRoute);
+app.use("/approval", approvalRoute);
 app.use("/student", studentRoute);
 app.use("/", homeRoute);
 
 const PORT = process.env.PORT || 5000;
 
+// Database connection
 mongoose.connect(process.env.CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => app.listen(PORT, () => console.log(`The server is running on port: ${PORT}`)))
   .catch((error) => console.log(error.message));
@@ -62,21 +64,21 @@ var gfs;
 const conn = mongoose.connection;
 
 conn.once("open", () => {
-    gfs = new mongoose.mongo.GridFSBucket(conn.db, { bucketName: "Images" });
+  gfs = new mongoose.mongo.GridFSBucket(conn.db, { bucketName: "Images" });
 });
 
-app.get("/", (req,res) => {
+app.get("/", (req, res) => {
   res.redirect("/home");
 });
 
-app.get("/image/:imageId", async (req,res) => {
-    try {
-      const readStream = await gfs.openDownloadStream(new mongoose.Types.ObjectId(req.params.imageId));
-      readStream.pipe(res);
-    } catch (error) {
-      console.log(error)
-      res.send(' ');
-    }
+app.get("/image/:imageId", async (req, res) => {
+  try {
+    const readStream = await gfs.openDownloadStream(new mongoose.Types.ObjectId(req.params.imageId));
+    readStream.pipe(res);
+  } catch (error) {
+    console.log(error)
+    res.send(' ');
+  }
 });
 
 
@@ -90,7 +92,7 @@ passport.deserializeUser(function (id, done) {
   });
 });
 
-
+// Authentication using passport.js and google API
 passport.use(new GoogleStrategy({
   clientID: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
@@ -103,17 +105,17 @@ passport.use(new GoogleStrategy({
       googleId: profile.id
     }, function (err, student) {
       // console.log(profile.emails[0].value.substring(11, 23));
-      if (!student && profile.emails[0].value.substring(11, 23)=="@iiitm.ac.in") {
-        var branch=profile.emails[0].value.substring(0, 3).toUpperCase() ;
-        var rollno=profile.emails[0].value.substring(4, 8)+branch+profile.emails[0].value.substring(8, 11);
-        var batch=profile.emails[0].value.substring(4, 8);
+      if (!student && profile.emails[0].value.substring(11, 23) == "@iiitm.ac.in") {
+        var branch = profile.emails[0].value.substring(0, 3).toUpperCase();
+        var rollno = profile.emails[0].value.substring(4, 8) + branch + profile.emails[0].value.substring(8, 11);
+        var batch = profile.emails[0].value.substring(4, 8);
         var student = new studentModel({
           name: profile.displayName,
           email: profile.emails[0].value,
           googleId: profile.id,
-          branch:branch,
-          rollNo:rollno,
-          batch:batch
+          branch: branch,
+          rollNo: rollno,
+          batch: batch
         });
         student.save(function (err, studentModel) {
           if (err) return err;
@@ -137,8 +139,10 @@ app.get("/auth/google/club",
     res.redirect('/home');
   });
 
-  
-  app.get('/logout', function (req, res){
-    req.session.destroy(function (err) {
-      res.redirect('/home');
-    })});
+
+// Logout function
+app.get('/logout', function (req, res) {
+  req.session.destroy(function (err) {
+    res.redirect('/home');
+  })
+});

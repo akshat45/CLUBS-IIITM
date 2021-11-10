@@ -7,6 +7,7 @@ import { google } from "googleapis";
 import dotenv from "dotenv";
 dotenv.config();
 
+// Mailing functions
 const OAuth2 = google.auth.OAuth2;
 
 const router = express.Router();
@@ -24,13 +25,13 @@ const createTransporter = async () => {
 
     const accessToken = await new Promise((resolve, reject) => {
         oauth2Client.getAccessToken((err, token) => {
-          if (err) {
-            console.log('Failed to create access token :(');
-            reject("Failed to create access token :(");
-          }
-          resolve(token);
+            if (err) {
+                console.log('Failed to create access token :(');
+                reject("Failed to create access token :(");
+            }
+            resolve(token);
         });
-      });
+    });
 
 
     const transporter = nodemailer.createTransport({
@@ -48,7 +49,7 @@ const createTransporter = async () => {
     return transporter;
 };
 
-
+// Different get and post requests for different approval actions.
 router.get("/:approvalId/approve", async function (req, res, next) {
 
     const approve = await approveApproval(req, res);
@@ -192,7 +193,7 @@ router.get("/:approvalId/meet", async function (req, res, next) {
         return;
     }
 
-    res.render('scheduleInterview',{ approval });
+    res.render('scheduleInterview', { approval });
 
 });
 

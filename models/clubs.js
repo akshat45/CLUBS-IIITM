@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const clubSchema = mongoose.Schema({
-    
+
     name: {
         type: String,
         unique: true,
@@ -15,7 +15,7 @@ const clubSchema = mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: "eventModel"
     }],
-    memberids:  [{
+    memberids: [{
         type: Schema.Types.ObjectId,
         ref: "studentModel"
     }],

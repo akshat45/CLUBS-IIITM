@@ -4,50 +4,51 @@ import { getUpcomingEvents } from "../controllers/events.js";
 
 const router = express.Router();
 
-router.get('/', async function(req,res,next) {
+// different get requests, and different access to website for logged in users and visitors.
+router.get('/', async function (req, res, next) {
 
-    const techClubs = await getTechClubs(req,res);
-    const cultClubs = await getCultClubs(req,res);
-    const recentevents = await getUpcomingEvents(req,res);
+    const techClubs = await getTechClubs(req, res);
+    const cultClubs = await getCultClubs(req, res);
+    const recentevents = await getUpcomingEvents(req, res);
     var isLoggedIn;
-    if(req.user===undefined)
-    isLoggedIn=false;
-    else{
-        isLoggedIn=true;
-        var studentName=req.user.name;
-        var studentId=req.session.passport.user;
+    if (req.user === undefined)
+        isLoggedIn = false;
+    else {
+        isLoggedIn = true;
+        var studentName = req.user.name;
+        var studentId = req.session.passport.user;
     }
 
     switch ("[object Error]") {
         case Object.prototype.toString.call(techClubs):
-            if((techClubs.status) < 500)
-            res.status(techClubs.status).send(techClubs.message);
+            if ((techClubs.status) < 500)
+                res.status(techClubs.status).send(techClubs.message);
             else
-            next(techClubs.message);
+                next(techClubs.message);
             break;
-        
+
         case Object.prototype.toString.call(cultClubs):
-            if((cultClubs.status) < 500)
-            res.status(cultClubs.status).send(cultClubs.message);
+            if ((cultClubs.status) < 500)
+                res.status(cultClubs.status).send(cultClubs.message);
             else
-            next(cultClubs.message);
+                next(cultClubs.message);
             break;
-        
+
         case Object.prototype.toString.call(recentevents):
-            if((recentevents.status) < 500)
-            res.status(recentevents.status).send(recentevents.message);
+            if ((recentevents.status) < 500)
+                res.status(recentevents.status).send(recentevents.message);
             else
-            next(recentevents.message);
+                next(recentevents.message);
             break;
-    
+
         default:
-            if(isLoggedIn)
-            res.status(200).render('home', {techClubs, cultClubs, recentevents, isLoggedIn, studentName, studentId,  message: req.flash("message"), status: req.flash("status")});
+            if (isLoggedIn)
+                res.status(200).render('home', { techClubs, cultClubs, recentevents, isLoggedIn, studentName, studentId, message: req.flash("message"), status: req.flash("status") });
             else
-            res.status(200).render('home', {techClubs, cultClubs, recentevents, isLoggedIn, message: req.flash("message"), status: req.flash("status") });
+                res.status(200).render('home', { techClubs, cultClubs, recentevents, isLoggedIn, message: req.flash("message"), status: req.flash("status") });
             break;
     }
-    
+
 });
 
 export default router;

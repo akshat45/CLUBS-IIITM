@@ -61,23 +61,29 @@
 
             <div class="form-group">
                 <label for="date" class="form-label">Date of Event</label>
-                <input type="date" class="form-control" id="date" value="<%=event.date.getDate()%>/<%=event.date.getMonth()%>/<%=event.date.getFullYear()%>" name="date" required>
+                <input type="date" class="form-control" id="date"
+                    value="<%=event.date.getDate()%>/<%=event.date.getMonth()%>/<%=event.date.getFullYear()%>"
+                    name="date" required>
             </div>
 
             <div class="form-group">
                 <label for="time" class="form-label">Time of Event</label>
-                <input type="time" class="form-control" id="time" value="<%=event.date.getHours()%>:<%=event.date.getMinutes()%>:<%=event.date.getSeconds()%> (IST)" name="time" required>
+                <input type="time" class="form-control" id="time"
+                    value="<%=event.date.getHours()%>:<%=event.date.getMinutes()%>:<%=event.date.getSeconds()%> (IST)"
+                    name="time" required>
             </div>
 
             <div class="form-group">
                 <label for="meetlink" class="form-label">Meetlink</label>
-                <input type="text" class="form-control" id="meetlink" value="<%=event.meetlink%>" name="meetlink" required>
+                <input type="text" class="form-control" id="meetlink" value="<%=event.meetlink%>" name="meetlink"
+                    required>
             </div>
 
 
             <div class="form-group">
                 <label for="description" class="form-label">Description of Event</label>
-                <input type="text" class="form-control" id="description" value="<%=event.description%>" name="description" required>
+                <input type="text" class="form-control" id="description" value="<%=event.description%>"
+                    name="description" required>
             </div>
 
             <div class="form-group">

@@ -22,13 +22,12 @@ export const getClub = async (req, res) => {
 
     }
 
-    if(club0 != null)
-    {
+    if (club0 != null) {
         try {
             const club = await clubModel.findOne({ _id: clubId })
-                                        .populate("memberids", "name")
-                                        .populate("presidentid", "name")
-                                        .populate("eventids", ["name", "image"]);
+                .populate("memberids", "name")
+                .populate("presidentid", "name")
+                .populate("eventids", ["name", "image"]);
             return club;
 
         } catch (error) {
@@ -72,8 +71,7 @@ export const getCultClubs = async (req, res) => {
 
 export const putClub = async (req, res) => {
 
-    if(req.session.passport === undefined)
-    {
+    if (req.session.passport === undefined) {
         var err = new Error("You are not logged in.");
         err.status = 400;
         return err;
@@ -81,8 +79,7 @@ export const putClub = async (req, res) => {
 
     const { clubId } = req.params;
 
-    if(!mongoose.Types.ObjectId.isValid(clubId))
-    {
+    if (!mongoose.Types.ObjectId.isValid(clubId)) {
         var err = new Error("The Club doesn't exist.");
         err.status = 406;
         return err;
@@ -100,20 +97,16 @@ export const putClub = async (req, res) => {
 
     }
 
-    if (club != null) 
-    {
-        if(req.session.passport.user != club.presidentid )
-        {
+    if (club != null) {
+        if (req.session.passport.user != club.presidentid) {
             var err = new Error("You are not president of club.");
             err.status = 400;
             return err;
         }
 
         try {
-            if(!(req.file === undefined))
-            {
-                if(!(club.image === undefined))
-                {
+            if (!(req.file === undefined)) {
+                if (!(club.image === undefined)) {
                     var gfs;
                     const conn = mongoose.connection;
                     gfs = new mongoose.mongo.GridFSBucket(conn.db, { bucketName: "Images" });
@@ -142,8 +135,7 @@ export const putClub = async (req, res) => {
 
 export const delClub = async (req, res) => {
 
-    if(req.session.passport === undefined)
-    {
+    if (req.session.passport === undefined) {
         var err = new Error("You are not logged in.");
         err.status = 400;
         return err;
@@ -151,8 +143,7 @@ export const delClub = async (req, res) => {
 
     const { clubId } = req.params;
 
-    if(!mongoose.Types.ObjectId.isValid(clubId))
-    {
+    if (!mongoose.Types.ObjectId.isValid(clubId)) {
         var err = new Error("The Club doesn't exsist.");
         err.status = 406;
         return err;
@@ -170,18 +161,15 @@ export const delClub = async (req, res) => {
 
     }
 
-    if (club != null) 
-    {
-        if(req.session.passport.user != club.presidentid )
-        {
+    if (club != null) {
+        if (req.session.passport.user != club.presidentid) {
             var err = new Error("You are not president of club.");
             err.status = 400;
             return err;
         }
 
         try {
-            if(club.image != undefined)
-            {
+            if (club.image != undefined) {
                 var gfs;
                 const conn = mongoose.connection;
                 gfs = new mongoose.mongo.GridFSBucket(conn.db, { bucketName: "Images" });
@@ -203,10 +191,9 @@ export const delClub = async (req, res) => {
     }
 };
 
-export const removeMember = async (req,res) => {
+export const removeMember = async (req, res) => {
 
-    if(req.session.passport === undefined)
-    {
+    if (req.session.passport === undefined) {
         var err = new Error("You are not logged in.");
         err.status = 400;
         return err;
@@ -214,15 +201,13 @@ export const removeMember = async (req,res) => {
 
     const { clubId, studentId } = req.params;
 
-    if(!mongoose.Types.ObjectId.isValid(clubId))
-    {
+    if (!mongoose.Types.ObjectId.isValid(clubId)) {
         var err = new Error("The Club doesn't exsist.");
         err.status = 406;
         return err;
     }
 
-    if(!mongoose.Types.ObjectId.isValid(studentId))
-    {
+    if (!mongoose.Types.ObjectId.isValid(studentId)) {
         var err = new Error("The Student doesn't exsist.");
         err.status = 406;
         return err;
@@ -231,14 +216,13 @@ export const removeMember = async (req,res) => {
     var student;
 
     try {
-        student = await studentModel.findById(studentId);        
+        student = await studentModel.findById(studentId);
     } catch (error) {
         error.message = "Unable to connect with database.";
-        return error;           
+        return error;
     }
 
-    if(student === null)
-    {
+    if (student === null) {
         var err = new Error("The Student doesn't exsist.");
         err.status = 406;
         return err;
@@ -255,25 +239,22 @@ export const removeMember = async (req,res) => {
 
     }
 
-    if (club != null) 
-    {
-        if(req.session.passport.user != club.presidentid )
-        {
+    if (club != null) {
+        if (req.session.passport.user != club.presidentid) {
             var err = new Error("You are not president of club.");
             err.status = 400;
             return err;
         }
 
-        if(club.memberids.indexOf(student._id) === -1)
-        {
+        if (club.memberids.indexOf(student._id) === -1) {
             var err = new Error("The Student is not member of this club.")
             err.status = 400;
             return err;
         }
 
         try {
-            await clubModel.updateOne({ _id: clubId }, { $pull: { memberids: studentId }});
-            return  { student, club };
+            await clubModel.updateOne({ _id: clubId }, { $pull: { memberids: studentId } });
+            return { student, club };
 
         } catch (error) {
             error.message = "Unable to connect with database.";
@@ -287,10 +268,9 @@ export const removeMember = async (req,res) => {
     }
 };
 
-export const getJoinButton = async (req,res) => {
+export const getJoinButton = async (req, res) => {
 
-    if(req.session.passport === undefined)
-    {
+    if (req.session.passport === undefined) {
         return false;
     }
 
@@ -300,14 +280,13 @@ export const getJoinButton = async (req,res) => {
 
     try {
         memcheck = await clubModel.find({ _id: clubId, memberids: { $elemMatch: { $eq: req.session.passport.user } } });
-        
+
     } catch (error) {
         error.message = "Unable to connect with database.";
-        return error;        
+        return error;
     }
 
-    if(memcheck.length === 0)
-    {
+    if (memcheck.length === 0) {
         return true;
     }
 
@@ -315,10 +294,9 @@ export const getJoinButton = async (req,res) => {
 
 };
 
-export const getVerifyPresident = async (req,res) => {
+export const getVerifyPresident = async (req, res) => {
 
-    if(req.session.passport === undefined)
-    {
+    if (req.session.passport === undefined) {
         return false;
     }
 
@@ -328,14 +306,13 @@ export const getVerifyPresident = async (req,res) => {
 
     try {
         prescheck = await clubModel.find({ _id: clubId, presidentid: req.session.passport.user });
-        
+
     } catch (error) {
         error.message = "Unable to connect with database.";
-        return error;        
+        return error;
     }
 
-    if(prescheck.length >= 1)
-    {
+    if (prescheck.length >= 1) {
         return true;
     }
 

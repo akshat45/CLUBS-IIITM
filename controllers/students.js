@@ -4,8 +4,7 @@ import clubModel from '../models/clubs.js';
 
 export const getStudent = async (req, res) => {
 
-    if(req.session.passport === undefined)
-    {
+    if (req.session.passport === undefined) {
         var err = new Error("You are not logged in.");
         err.status = 400;
         return err;
@@ -13,8 +12,7 @@ export const getStudent = async (req, res) => {
 
     const { studentId } = req.params;
 
-    if(!mongoose.Types.ObjectId.isValid(studentId))
-    {
+    if (!mongoose.Types.ObjectId.isValid(studentId)) {
         var err = new Error("The Student doesn't exsist.");
         err.status = 406;
         return err;
@@ -23,14 +21,13 @@ export const getStudent = async (req, res) => {
     var student;
 
     try {
-        student = await studentModel.findById(studentId);        
+        student = await studentModel.findById(studentId);
     } catch (error) {
         error.message = "Unable to connect with database.";
-        return error;           
+        return error;
     }
 
-    if(student === null)
-    {
+    if (student === null) {
         var err = new Error("The Student doesn't exsist.");
         err.status = 406;
         return err;
@@ -41,8 +38,7 @@ export const getStudent = async (req, res) => {
 
 export const putStudent = async (req, res) => {
 
-    if(req.session.passport === undefined)
-    {
+    if (req.session.passport === undefined) {
         var err = new Error("You are not logged in.");
         err.status = 400;
         return err;
@@ -51,8 +47,7 @@ export const putStudent = async (req, res) => {
     const { studentId } = req.params;
     const body = req.body;
 
-    if(!mongoose.Types.ObjectId.isValid(studentId))
-    {
+    if (!mongoose.Types.ObjectId.isValid(studentId)) {
         var err = new Error("The Student doesn't exsist.");
         err.status = 406;
         return err;
@@ -61,31 +56,29 @@ export const putStudent = async (req, res) => {
     var student;
 
     try {
-        student = await studentModel.findById(studentId);        
+        student = await studentModel.findById(studentId);
     } catch (error) {
         error.message = "Unable to connect with database.";
-        return error;           
+        return error;
     }
 
-    if(student === null)
-    {
+    if (student === null) {
         var err = new Error("The Student doesn't exsist.");
         err.status = 406;
         return err;
     }
 
-    if(req.session.passport.user != studentId)
-    {
+    if (req.session.passport.user != studentId) {
         var err = new Error("You are not authorized to edit this detail.");
         err.status = 406;
         return err;
     }
 
     try {
-        await studentModel.findByIdAndUpdate(studentId, { bio: body.bio, linkedin: body.linkedin, phoneno: body.phoneno});        
+        await studentModel.findByIdAndUpdate(studentId, { bio: body.bio, linkedin: body.linkedin, phoneno: body.phoneno });
     } catch (error) {
         error.message = "Unable to connect with database.";
-        return error;           
+        return error;
     }
 
     return { message: "The profile is updated successfully." };
@@ -93,8 +86,7 @@ export const putStudent = async (req, res) => {
 
 export const delStudent = async (req, res) => {
 
-    if(req.session.passport === undefined)
-    {
+    if (req.session.passport === undefined) {
         var err = new Error("You are not logged in.");
         err.status = 400;
         return err;
@@ -102,8 +94,7 @@ export const delStudent = async (req, res) => {
 
     const { studentId } = req.params;
 
-    if(!mongoose.Types.ObjectId.isValid(studentId))
-    {
+    if (!mongoose.Types.ObjectId.isValid(studentId)) {
         var err = new Error("The Student doesn't exsist.");
         err.status = 406;
         return err;
@@ -112,21 +103,19 @@ export const delStudent = async (req, res) => {
     var student;
 
     try {
-        student = await studentModel.findById(studentId);        
+        student = await studentModel.findById(studentId);
     } catch (error) {
         error.message = "Unable to connect with database.";
-        return error;           
+        return error;
     }
 
-    if(student === null)
-    {
+    if (student === null) {
         var err = new Error("The Student doesn't exsist.");
         err.status = 406;
         return err;
     }
 
-    if(req.session.passport.user != studentId)
-    {
+    if (req.session.passport.user != studentId) {
         var err = new Error("You are not authorized to delete user.");
         err.status = 406;
         return err;
@@ -134,10 +123,10 @@ export const delStudent = async (req, res) => {
 
     try {
         await clubModel.updateMany({ memberids: { $elemMatch: { $eq: student._id } } }, { $pull: { memberids: student._id } });
-        await studentModel.findByIdAndDelete(studentId); 
+        await studentModel.findByIdAndDelete(studentId);
     } catch (error) {
         error.message = "Unable to connect with database.";
-        return error;           
+        return error;
     }
 
     // Logging out remaining.

@@ -1,5 +1,5 @@
 <p align="center"><a href="https://clubs-iiitm.herokuapp.com/"><img src="https://user-images.githubusercontent.com/56078790/140655413-1db279d0-270f-4e0d-9442-c278de6b0328.png" alt="CLUBS-IIITM" width="200"></a></p>
-<h4 align="center">A club management system build for  <a href="https://www.iiitm.ac.in/" target="_blank">IIITM</a> community.</h4>
+<h4 align="center">A club management system built for <a href="https://www.iiitm.ac.in/" target="_blank">IIITM</a> community.</h4>
 <p align="center"> •
   <a href="#overview">Overview</a> •
   <a href="#local-installation">Local Installation</a> •

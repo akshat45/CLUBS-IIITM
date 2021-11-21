@@ -5,7 +5,8 @@
   "main": "App.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon App.js"
+    "start": "nodemon App.js",
+    "test": "mocha --recursive --exit"
   },
   "author": "Akshat, Jay, Chaitanya",
   "license": "ISC",
@@ -26,5 +27,9 @@
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^9.1.3"
   }
 }

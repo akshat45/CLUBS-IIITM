@@ -21,11 +21,8 @@ catch{
     edit_club="Unable to edit";
 }
 
-it('Get student profile', () => {
+it('Edit status', () => {
     expect(edit_club).to.equal("edit successfully");
 });
 
 });
-
-
-
